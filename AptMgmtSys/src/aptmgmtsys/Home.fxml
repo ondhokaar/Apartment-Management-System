@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aptmgmtsys.HomeController">
-    
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="aptmgmtsys.HomeController">
+   <children>
+      <Pane layoutX="453.0" layoutY="50.0" prefHeight="300.0" prefWidth="126.0" style="-fx-border-color: red;">
+         <children>
+            <Label layoutX="21.0" layoutY="14.0" prefHeight="17.0" prefWidth="79.0" text="recents (?)" />
+         </children>
+      </Pane>
+      <Pane layoutX="22.0" layoutY="33.0" prefHeight="341.0" prefWidth="352.0" style="-fx-border-color: red;">
+         <children>
+            <Button fx:id="btn_billing" layoutX="184.0" layoutY="58.0" mnemonicParsing="false" onAction="#onClickBtn_billing" prefHeight="66.0" prefWidth="90.0" text="Billing">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button layoutX="184.0" layoutY="138.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="90.0" text="Employee" />
+            <Button layoutX="61.0" layoutY="138.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="90.0" text="Fund" />
+            <Button layoutX="61.0" layoutY="58.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="90.0" text="Apartments" />
+            <Button layoutX="61.0" layoutY="216.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="90.0" text="Payment" />
+         </children>
+      </Pane>
+   </children>
 </AnchorPane>
