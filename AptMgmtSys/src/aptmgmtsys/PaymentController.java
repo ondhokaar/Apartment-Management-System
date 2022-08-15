@@ -4,8 +4,6 @@
  */
 package aptmgmtsys;
 
-import aptmgmtsys.utils.Navigation;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -24,7 +22,7 @@ import javafx.stage.Stage;
  *
  * @author shabbir
  */
-public class BillingController implements Initializable {
+public class PaymentController implements Initializable {
 
     @FXML
     private Button btn_back;
@@ -35,7 +33,7 @@ public class BillingController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }
+    }    
 
     @FXML
     private void onClickBtn_back(ActionEvent event) {
@@ -51,8 +49,6 @@ public class BillingController implements Initializable {
         } catch (Exception ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-
     }
-
+    
 }

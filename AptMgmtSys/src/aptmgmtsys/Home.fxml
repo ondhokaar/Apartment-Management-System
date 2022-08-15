@@ -21,10 +21,26 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button layoutX="184.0" layoutY="138.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="90.0" text="Employee" />
-            <Button layoutX="61.0" layoutY="138.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="90.0" text="Fund" />
-            <Button layoutX="61.0" layoutY="58.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="90.0" text="Apartments" />
-            <Button layoutX="61.0" layoutY="216.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="90.0" text="Payment" />
+            <Button fx:id="btn_employee" layoutX="184.0" layoutY="138.0" mnemonicParsing="false" onAction="#onClickBtn_employee" prefHeight="66.0" prefWidth="90.0" text="Employee">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="btn_fund" layoutX="61.0" layoutY="138.0" mnemonicParsing="false" onAction="#onClickBtn_fund" prefHeight="66.0" prefWidth="90.0" text="Fund">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="btn_apt" layoutX="61.0" layoutY="58.0" mnemonicParsing="false" onAction="#onClickBtn_apt" prefHeight="66.0" prefWidth="90.0" text="Apartments">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="btn_payment" layoutX="61.0" layoutY="216.0" mnemonicParsing="false" onAction="#onClickBtn_payment" prefHeight="66.0" prefWidth="90.0" text="Payment">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </Pane>
    </children>

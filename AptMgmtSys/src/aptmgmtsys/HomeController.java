@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,6 +29,14 @@ public class HomeController implements Initializable {
 
     @FXML
     private Button btn_billing;
+    @FXML
+    private Button btn_apt;
+    @FXML
+    private Button btn_employee;
+    @FXML
+    private Button btn_fund;
+    @FXML
+    private Button btn_payment;
 
     /**
      * Initializes the controller class.
@@ -35,6 +44,8 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+
+      
     }
 
     @FXML
@@ -56,7 +67,67 @@ public class HomeController implements Initializable {
             window.setScene(scr);
             window.show();
 
+        } catch (IOException ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
+    @FXML
+    private void onClickBtn_apt(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("Apartments.fxml"));
+            Scene scr = new Scene(root);
+            Stage window = (Stage) btn_billing.getScene().getWindow();
+            window.setTitle("Billing");
+            window.setScene(scr);
+            window.show();
+
+        } catch (IOException ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    @FXML
+    private void onClickBtn_employee(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("Employee.fxml"));
+            Scene scr = new Scene(root);
+            Stage window = (Stage) btn_billing.getScene().getWindow();
+            window.setTitle("Billing");
+            window.setScene(scr);
+            window.show();
+
+        } catch (IOException ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+
+    @FXML
+    private void onClickBtn_fund(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("Fund.fxml"));
+            Scene scr = new Scene(root);
+            Stage window = (Stage) btn_billing.getScene().getWindow();
+            window.setTitle("Billing");
+            window.setScene(scr);
+            window.show();
+
+        } catch (IOException ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    private void onClickBtn_payment(ActionEvent event) {
+         try {
+            Parent root = FXMLLoader.load(getClass().getResource("Payment.fxml"));
+            Scene scr = new Scene(root);
+            Stage window = (Stage) btn_billing.getScene().getWindow();
+            window.setTitle("Billing");
+            window.setScene(scr);
+            window.show();
 
         } catch (IOException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);

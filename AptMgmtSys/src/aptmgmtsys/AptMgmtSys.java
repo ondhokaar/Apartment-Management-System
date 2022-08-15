@@ -4,6 +4,7 @@
  */
 package aptmgmtsys;
 
+
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -12,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -20,7 +22,7 @@ import javafx.stage.Stage;
  * @author shabbir
  */
 public class AptMgmtSys extends Application {
-    
+
     @Override
     public void start(Stage primaryStage) throws IOException {
 //        Button btn = new Button();
@@ -41,15 +43,17 @@ public class AptMgmtSys extends Application {
 //        primaryStage.setTitle("Hello World!");
 //        primaryStage.setScene(scene);
 //        primaryStage.show();
-        
-        
-        
+
         Parent root = FXMLLoader.load(getClass().getResource("Home.fxml"));
         Scene scr = new Scene(root);
 
         primaryStage.setTitle("home");
+        primaryStage.getIcons().add(new Image("icon2.png"));
+        primaryStage.centerOnScreen();
+        //primaryStage.getIcons().add(new Image(<yourclassname>.class.getResourceAsStream("icon.png")));
         primaryStage.setScene(scr);
         primaryStage.show();
+
     }
 
     /**
@@ -58,5 +62,5 @@ public class AptMgmtSys extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }
