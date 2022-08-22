@@ -46,7 +46,7 @@ public class AptMgmtSys extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("Home.fxml"));
         Scene scr = new Scene(root);
-
+        
         primaryStage.setTitle("home");
         primaryStage.getIcons().add(new Image("icon2.png"));
         primaryStage.centerOnScreen();
