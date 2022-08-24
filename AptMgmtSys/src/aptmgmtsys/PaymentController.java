@@ -26,6 +26,8 @@ public class PaymentController implements Initializable {
 
     @FXML
     private Button btn_back;
+    @FXML
+    private Button btn_pay;
 
     /**
      * Initializes the controller class.
@@ -49,6 +51,10 @@ public class PaymentController implements Initializable {
         } catch (Exception ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @FXML
+    private void onClickBtn_pay(ActionEvent event) {
     }
     
 }

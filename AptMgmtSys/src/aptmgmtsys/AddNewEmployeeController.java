@@ -4,8 +4,11 @@
  */
 package aptmgmtsys;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +23,7 @@ import javafx.stage.Stage;
  *
  * @author shabbir
  */
-public class AddNewFlatController implements Initializable {
+public class AddNewEmployeeController implements Initializable {
 
     @FXML
     private Button btn_cancel;
@@ -35,17 +38,16 @@ public class AddNewFlatController implements Initializable {
 
     @FXML
     private void onClickBtn_cancel(ActionEvent event) {
-        try {
 
-            Parent apt = FXMLLoader.load(getClass().getResource("Apartments.fxml"));
-            Scene scr = new Scene(apt);
+        try {
+            Parent emp = FXMLLoader.load(getClass().getResource("Employee.fxml"));
+            Scene scr = new Scene(emp);
             Stage window = (Stage) btn_cancel.getScene().getWindow();
-            window.setTitle("Apartment Mangement System : Home");
+            window.setTitle("Apartment Mangement System : Employee");
             window.setScene(scr);
             window.show();
-
-        } catch (Exception ex) {
-            //Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(AddNewEmployeeController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

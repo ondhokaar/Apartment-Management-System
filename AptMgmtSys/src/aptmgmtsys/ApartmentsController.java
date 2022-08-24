@@ -4,6 +4,7 @@
  */
 package aptmgmtsys;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -26,6 +27,8 @@ public class ApartmentsController implements Initializable {
 
     @FXML
     private Button btn_back;
+    @FXML
+    private Button btn_addNewFlat;
 
     /**
      * Initializes the controller class.
@@ -47,6 +50,21 @@ public class ApartmentsController implements Initializable {
             window.show();
 
         } catch (Exception ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    private void onClickBtn_addNewFlat(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("AddNewFlat.fxml"));
+            Scene scr = new Scene(root);
+            Stage window = (Stage) btn_addNewFlat.getScene().getWindow();
+            window.setTitle("Add New Flat");
+            window.setScene(scr);
+            window.show();
+
+        } catch (IOException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

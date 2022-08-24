@@ -17,7 +17,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button id="BUTTON" layoutX="14.0" layoutY="40.0" mnemonicParsing="false" stylesheets="@ButtonStyle.css" text="Add New">
+            <Button id="BUTTON" fx:id="btn_addNewFlat" layoutX="14.0" layoutY="40.0" mnemonicParsing="false" onAction="#onClickBtn_addNewFlat" stylesheets="@ButtonStyle.css" text="Add New">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

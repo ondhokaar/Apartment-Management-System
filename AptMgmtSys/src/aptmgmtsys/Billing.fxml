@@ -2,31 +2,37 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="aptmgmtsys.BillingController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aptmgmtsys.BillingController">
    <children>
-      <SplitPane dividerPositions="0.6088992974238876" layoutX="76.0" layoutY="41.0" prefHeight="280.0" prefWidth="429.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-               <children>
-                  <Label layoutX="95.0" layoutY="22.0" prefHeight="17.0" prefWidth="106.0" text="Create Bill" />
-               </children>
-            </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="291.0" prefWidth="164.0">
-               <children>
-                  <Label layoutX="65.0" layoutY="15.0" prefHeight="17.0" prefWidth="68.0" text="Bill status" />
-               </children>
-            </AnchorPane>
-        </items>
-      </SplitPane>
       <Button fx:id="btn_back" layoutX="464.0" layoutY="349.0" mnemonicParsing="false" onAction="#onClickBtn_back" text="Back">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
+      <AnchorPane layoutX="14.0" layoutY="50.0" minHeight="0.0" minWidth="0.0" prefHeight="278.0" prefWidth="306.0">
+         <children>
+            <Label layoutX="95.0" layoutY="22.0" prefHeight="17.0" prefWidth="106.0" text="Create Bill" />
+            <TextField layoutX="95.0" layoutY="97.0" />
+            <TextField layoutX="94.0" layoutY="139.0" />
+            <DatePicker layoutX="93.0" layoutY="198.0" prefHeight="25.0" prefWidth="157.0" />
+            <Label layoutX="14.0" layoutY="59.0" prefHeight="25.0" prefWidth="50.0" text="Owner" />
+            <Label layoutX="14.0" layoutY="97.0" prefHeight="25.0" prefWidth="56.0" text="Details" />
+            <Label layoutX="14.0" layoutY="139.0" prefHeight="25.0" prefWidth="56.0" text="Amount" />
+            <Label layoutX="14.0" layoutY="198.0" prefHeight="25.0" prefWidth="56.0" text="Deadline" />
+            <MenuButton layoutX="93.0" layoutY="59.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Select Owner">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Action 1" />
+                  <MenuItem mnemonicParsing="false" text="Action 2" />
+               </items>
+            </MenuButton>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

@@ -5,6 +5,7 @@
 package aptmgmtsys;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -30,7 +31,9 @@ public class EmployeeController implements Initializable {
 
     @FXML
     private Button btn_back;
-    private ImageView img;
+
+    @FXML
+    private Button btn_addNew;
 
     /**
      * Initializes the controller class.
@@ -38,9 +41,7 @@ public class EmployeeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        Image i = new Image("teasing-cruelty.gif");
-        
-        img.setImage(i);
+
     }
 
     @FXML
@@ -55,6 +56,21 @@ public class EmployeeController implements Initializable {
             window.show();
 
         } catch (Exception ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    private void onClickBtn_addNew(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("AddNewEmployee.fxml"));
+            Scene scr = new Scene(root);
+            Stage window = (Stage) btn_addNew.getScene().getWindow();
+            window.setTitle("Add New Employee");
+            window.setScene(scr);
+            window.show();
+
+        } catch (IOException ex) {
             Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

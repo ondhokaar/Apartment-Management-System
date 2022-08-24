@@ -2,7 +2,10 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aptmgmtsys.EmployeeController">
    <children>
@@ -11,5 +14,17 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
+      <Label layoutX="280.0" layoutY="35.0" text="Employee" />
+      <Pane layoutX="52.0" layoutY="113.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: red;" />
+      <Pane layoutX="325.0" layoutY="113.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: red;">
+         <children>
+            <TextField layoutX="21.0" layoutY="31.0" />
+            <Label layoutX="23.0" layoutY="6.0" prefHeight="25.0" prefWidth="72.0" text="Search" />
+         </children>
+      </Pane>
+      <Button fx:id="btn_addNew" layoutX="59.0" layoutY="340.0" mnemonicParsing="false" onAction="#onClickBtn_addNew" text="Add new" />
+      <Button layoutX="132.0" layoutY="340.0" mnemonicParsing="false" text="Dismiss" />
+      <Button layoutX="273.0" layoutY="340.0" mnemonicParsing="false" text="View Details" />
+      <Button layoutX="200.0" layoutY="340.0" mnemonicParsing="false" text="Update" />
    </children>
 </AnchorPane>

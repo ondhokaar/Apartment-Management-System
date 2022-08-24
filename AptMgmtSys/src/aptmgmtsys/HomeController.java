@@ -94,7 +94,7 @@ public class HomeController implements Initializable {
             Parent root = FXMLLoader.load(getClass().getResource("Employee.fxml"));
             Scene scr = new Scene(root);
             Stage window = (Stage) btn_billing.getScene().getWindow();
-            window.setTitle("Billing");
+            window.setTitle("Employee");
             window.setScene(scr);
             window.show();
 
