@@ -7,7 +7,12 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aptmgmtsys.BillingController">
    <children>
@@ -34,5 +39,22 @@
             </MenuButton>
          </children>
       </AnchorPane>
+      <Button fx:id="btn_billStatus" layoutX="41.0" layoutY="349.0" mnemonicParsing="false" onAction="#onClickBtn_billStatus" prefHeight="25.0" prefWidth="296.0" text="bill status" />
+      <Pane fx:id="pane_invoice" layoutX="285.0" layoutY="57.0" prefHeight="262.0" prefWidth="296.0">
+         <effect>
+            <Lighting>
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant>
+                     <color>
+                        <Color red="0.44736841320991516" green="0.055921051651239395" blue="0.055921051651239395" />
+                     </color>
+                  </Light.Distant>
+               </light>
+            </Lighting>
+         </effect>
+      </Pane>
    </children>
 </AnchorPane>

@@ -6,10 +6,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="aptmgmtsys.HomeController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aptmgmtsys.HomeController">
    <children>
-      <Pane layoutX="453.0" layoutY="50.0" prefHeight="300.0" prefWidth="126.0" style="-fx-border-color: red;">
+      <Pane layoutX="383.0" layoutY="50.0" prefHeight="300.0" prefWidth="196.0" style="-fx-border-color: red;">
          <children>
             <Label layoutX="21.0" layoutY="14.0" prefHeight="17.0" prefWidth="79.0" text="recents (?)" />
          </children>

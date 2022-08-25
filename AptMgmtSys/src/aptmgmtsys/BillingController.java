@@ -17,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -28,6 +29,10 @@ public class BillingController implements Initializable {
 
     @FXML
     private Button btn_back;
+    @FXML
+    private Button btn_billStatus;
+    @FXML
+    private Pane pane_invoice;
 
     /**
      * Initializes the controller class.
@@ -53,6 +58,10 @@ public class BillingController implements Initializable {
         }
         
 
+    }
+
+    @FXML
+    private void onClickBtn_billStatus(ActionEvent event) {
     }
 
 }
