@@ -10,4 +10,5 @@ package aptmgmtsys.utils;
  */
 public class Bundle {
     public static String UID = "";
+    public static Object selected;
 }

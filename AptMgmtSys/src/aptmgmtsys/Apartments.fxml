@@ -39,7 +39,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button id="BUTTON" layoutX="234.0" layoutY="40.0" mnemonicParsing="false" stylesheets="@ButtonStyle.css" text="Sell">
+            <Button id="BUTTON" fx:id="btn_sell" layoutX="234.0" layoutY="40.0" mnemonicParsing="false" onAction="#onClickBtn_sell" stylesheets="@ButtonStyle.css" text="Sell">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

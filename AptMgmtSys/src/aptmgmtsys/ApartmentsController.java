@@ -4,6 +4,7 @@
  */
 package aptmgmtsys;
 
+import aptmgmtsys.utils.Bundle;
 import aptmgmtsys.utils.DBConnect;
 import aptmgmtsys.utils.TableLoader;
 import java.io.IOException;
@@ -60,6 +61,8 @@ public class ApartmentsController implements Initializable {
     private Button btn_showall;
     @FXML
     private Button btn_remove;
+    @FXML
+    private Button btn_sell;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -67,7 +70,7 @@ public class ApartmentsController implements Initializable {
             // TODO
             dbcon = new DBConnect();
             dbcon.connectToDB();
-            tableLoader.loadTable("select flatID, apt_no, area, level_ from Flats", tv_apartments);
+            tableLoader.loadTable("select flatID, apt_no, area, level_, completionDate from Flats", tv_apartments);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ApartmentsController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -160,9 +163,7 @@ public class ApartmentsController implements Initializable {
             //delete row where id = this
 
             Object s = tv_apartments.getSelectionModel().getSelectedItems().get(0);
-
             System.out.println(s.toString().split(", ")[1].substring(1));
-
             String flatID = s.toString().split(", ")[0].substring(1); //got the 2nd column of selected row -> first col = course id
             System.out.println("flat id : " + flatID);
 
@@ -174,8 +175,39 @@ public class ApartmentsController implements Initializable {
             alert.setContentText("---");
             alert.showAndWait();
 
+            try {
+                tableLoader.loadTable("select flatID, apt_no, area, level_ from Flats", tv_apartments);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ApartmentsController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(ApartmentsController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         } catch (Exception ex) {
             System.out.println(ex);
+        }
+    }
+
+    @FXML
+    private void onClickBtn_sell(ActionEvent event) {
+
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("SellFlat.fxml"));
+            Scene scr = new Scene(root);
+            Stage window = (Stage) btn_sell.getScene().getWindow();
+            window.setTitle("sell flat");
+            window.setScene(scr);
+
+            Object s = tv_apartments.getSelectionModel().getSelectedItems().get(0);
+            
+            System.out.println(s.toString().split(", ")[1].substring(1));
+
+            String flatID = s.toString().split(", ")[0].substring(1); //got the 2nd column of selected row -> first col = course id
+            System.out.println("flat id : " + flatID);
+            Bundle.selected = s;
+            window.show();
+        } catch (IOException ex) {
+            Logger.getLogger(ApartmentsController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

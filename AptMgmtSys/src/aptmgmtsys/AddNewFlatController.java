@@ -105,8 +105,6 @@ public class AddNewFlatController implements Initializable {
         f = false;
 
 //============
-        
-
     }
 
     @FXML
@@ -188,7 +186,24 @@ public class AddNewFlatController implements Initializable {
                         + "', " + tf_area.getText()
                         + ", '" + label_doc.getText()
                         + "')";
-                dbcon.insertDataToDB(insertQry);
+                boolean st = dbcon.insertDataToDB(insertQry);
+
+                if (st) {
+                    //success
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("success");
+                    alert.setHeaderText("success entry");
+                    alert.setContentText("---");
+                    alert.showAndWait();
+
+                } else {
+                    //false
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("FAILED");
+                    alert.setHeaderText("could not insert");
+                    alert.setContentText("---");
+                    alert.showAndWait();
+                }
                 System.out.println("done");
                 TableLoader.loadTable("select * from Flats", tab);
 
