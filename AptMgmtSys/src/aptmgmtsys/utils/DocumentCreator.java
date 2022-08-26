@@ -37,7 +37,7 @@ public class DocumentCreator {
                     amount = (((Label) child).getText());
                     continue;
                 }
-                bw.write((((Label) child).getText()) + "\t\t\t\t\t\t\t\t\t" + amount);
+                bw.write((((Label) child).getText()) + "\t\t\t\t" + amount);
                 bw.newLine();
             }
             bw.close();

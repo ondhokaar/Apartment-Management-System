@@ -4,75 +4,57 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Light.Distant?>
-<?import javafx.scene.effect.Lighting?>
-<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.paint.Color?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aptmgmtsys.BillingController">
    <children>
-      <Button fx:id="btn_back" layoutX="464.0" layoutY="349.0" mnemonicParsing="false" onAction="#onClickBtn_back" text="Back">
+      <Button fx:id="btn_back" layoutX="425.0" layoutY="349.0" mnemonicParsing="false" onAction="#onClickBtn_back" text="Back">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <AnchorPane layoutX="14.0" layoutY="50.0" minHeight="0.0" minWidth="0.0" prefHeight="183.0" prefWidth="424.0">
+      <AnchorPane layoutX="14.0" layoutY="33.0" minHeight="0.0" minWidth="0.0" prefHeight="246.0" prefWidth="539.0">
          <children>
-            <TextField fx:id="tf_service" layoutX="108.0" layoutY="72.0" />
-            <TextField fx:id="tf_amount" layoutX="108.0" layoutY="114.0" />
-            <Label layoutX="14.0" layoutY="20.0" prefHeight="25.0" prefWidth="50.0" text="Owner" />
-            <Label layoutX="14.0" layoutY="72.0" prefHeight="25.0" prefWidth="83.0" text="Service/Reason" />
-            <Label layoutX="14.0" layoutY="114.0" prefHeight="25.0" prefWidth="56.0" text="Amount" />
-            <MenuButton layoutX="104.0" layoutY="20.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Select Owner">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Action 1" />
-                  <MenuItem mnemonicParsing="false" text="Action 2" />
-               </items>
-            </MenuButton>
+            <TextField fx:id="tf_service" layoutX="108.0" layoutY="109.0" />
+            <TextField fx:id="tf_amount" layoutX="108.0" layoutY="151.0" />
+            <Label layoutX="14.0" layoutY="109.0" prefHeight="25.0" prefWidth="83.0" text="Service/Reason" />
+            <Label layoutX="14.0" layoutY="151.0" prefHeight="25.0" prefWidth="56.0" text="Amount" />
+            <DatePicker layoutX="79.0" layoutY="14.0" />
+            <Label layoutX="17.0" layoutY="14.0" prefHeight="25.0" prefWidth="50.0" text="Bill From" />
+            <DatePicker layoutX="340.0" layoutY="14.0" />
+            <Label layoutX="278.0" layoutY="14.0" prefHeight="25.0" prefWidth="50.0" text="Bill to" />
+            <Button fx:id="btn_addToInvoice" layoutX="14.0" layoutY="190.0" mnemonicParsing="false" onAction="#onClickBtn_addToInvoice" prefHeight="25.0" prefWidth="275.0" text="Add to invoice" />
+            <Button fx:id="btn_owner" layoutX="17.0" layoutY="54.0" mnemonicParsing="false" onAction="#onClickBtn_owner" prefHeight="25.0" prefWidth="275.0" text="Choose owner to bill" />
          </children>
       </AnchorPane>
-      <Button fx:id="btn_billStatus" layoutX="41.0" layoutY="349.0" mnemonicParsing="false" onAction="#onClickBtn_billStatus" prefHeight="25.0" prefWidth="296.0" text="bill status" />
-      <Pane fx:id="pane_invoice" layoutX="349.0" layoutY="52.0" prefHeight="267.0" prefWidth="232.0" style="-fx-border-color: red;">
-         <effect>
-            <Lighting>
-               <bumpInput>
-                  <Shadow />
-               </bumpInput>
-               <light>
-                  <Light.Distant>
-                     <color>
-                        <Color red="0.44736841320991516" green="0.055921051651239395" blue="0.055921051651239395" />
-                     </color>
-                  </Light.Distant>
-               </light>
-            </Lighting>
-         </effect>
-         <children>
-            <Label fx:id="label_invoice" layoutX="14.0" layoutY="23.0" prefHeight="230.0" prefWidth="204.0" text="Label" />
-            <GridPane fx:id="gp" layoutX="-58.0" layoutY="36.0" prefHeight="71.0" prefWidth="225.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="56.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="85.0" minHeight="0.0" prefHeight="32.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="232.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-            </GridPane>
-         </children>
-      </Pane>
+      <Button fx:id="btn_billStatus" layoutX="41.0" layoutY="349.0" mnemonicParsing="false" onAction="#onClickBtn_billStatus" prefHeight="25.0" prefWidth="275.0" text="bill status" />
       <Label layoutX="263.0" layoutY="19.0" prefHeight="17.0" prefWidth="106.0" text="Create Bill" />
-      <DatePicker layoutX="120.0" layoutY="250.0" prefHeight="25.0" prefWidth="157.0" />
-      <Label layoutX="30.0" layoutY="250.0" prefHeight="25.0" prefWidth="56.0" text="Deadline" />
-      <Button fx:id="btn_createpdf" layoutX="86.0" layoutY="319.0" mnemonicParsing="false" onAction="#onClickBtn_createpdf" text="Button" />
+      <DatePicker layoutX="121.0" layoutY="298.0" prefHeight="25.0" prefWidth="157.0" />
+      <Label layoutX="31.0" layoutY="298.0" prefHeight="25.0" prefWidth="56.0" text="Deadline" />
+      <Button fx:id="btn_createpdf" layoutX="476.0" layoutY="349.0" mnemonicParsing="false" onAction="#onClickBtn_createpdf" text="Create Invoice" />
+      <ScrollPane layoutX="326.0" layoutY="75.0" prefHeight="263.0" prefWidth="256.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <GridPane fx:id="gp" layoutX="1.0" layoutY="3.0" prefHeight="71.0" prefWidth="199.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="56.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="85.0" minHeight="0.0" prefHeight="32.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="232.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
    </children>
 </AnchorPane>

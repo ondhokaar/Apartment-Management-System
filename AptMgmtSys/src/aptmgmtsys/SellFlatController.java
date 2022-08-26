@@ -259,11 +259,11 @@ public class SellFlatController implements Initializable {
                 //System.out.println(rs.absolute(1));
                 try {
                     //rs is not null
-                    System.out.println(rs.toString());
-                    rs.next();
-                    //System.out.println(rs);
-                    System.out.println(rs.getString("apt_no")); //correct
-                    System.out.println(rs.toString());
+//                    System.out.println(rs.toString());
+//                    rs.next();
+//                    //System.out.println(rs);
+//                    System.out.println(rs.getString("apt_no")); //correct
+//                    System.out.println(rs.toString());
                     //will throw exception if not found mapping
 
                     //else found  -- update map
@@ -277,17 +277,18 @@ public class SellFlatController implements Initializable {
                     boolean succ = dbcon.insertDataToDB(mapqry);
                     if (succ) {
                         //owner change success
-                        formerOwnerFlat--;
-                        //update owner status
-                        if ("former".equals(s.toString().split(", ")[2])) {
-                            //update
-                            dbcon.insertDataToDB("update Owners set status_ = 'present' where phone = '" + ownerPhone + "'");
-                        }
-
+                        formerOwnerFlat--;  
                         if (formerOwnerFlat == 0) {
                             dbcon.insertDataToDB("update Owners set status_ = 'former' where phone = '" + formerOwnerPhone + "'");
 
                         }
+                        //update owner status
+            
+                            //update
+                            dbcon.insertDataToDB("update Owners set status_ = 'present' where phone = '" + ownerPhone + "'");
+                 
+
+
 
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("success");
