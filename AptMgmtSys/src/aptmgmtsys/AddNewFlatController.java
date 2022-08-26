@@ -7,6 +7,7 @@ package aptmgmtsys;
 import aptmgmtsys.utils.DBConnect;
 import aptmgmtsys.utils.TableLoader;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -192,9 +193,21 @@ public class AddNewFlatController implements Initializable {
                     //success
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("success");
-                    alert.setHeaderText("success entry");
-                    alert.setContentText("---");
+                    alert.setHeaderText("New Apartment Has been added");
+                    alert.setContentText("This apartment currently has no owner");
                     alert.showAndWait();
+                    
+                    //take back to apartments
+                    try {
+                        Parent root = FXMLLoader.load(getClass().getResource("Apartments.fxml"));
+                        Scene scr = new Scene(root);
+                        Stage window = (Stage) btn_cancel.getScene().getWindow();
+                        window.setTitle("Apartments");
+                        window.setScene(scr);
+                        window.show();
+                    } catch (IOException ex) {
+                        Logger.getLogger(SellFlatController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
                 } else {
                     //false

@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="aptmgmtsys.SellFlatController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aptmgmtsys.SellFlatController">
    <children>
       <Label layoutX="272.0" layoutY="40.0" text="sell flat" />
       <MenuButton fx:id="mbtn_existing" layoutX="172.0" layoutY="106.0" mnemonicParsing="false" text="Select">
@@ -31,9 +30,10 @@
             <Label layoutX="14.0" layoutY="47.0" prefHeight="17.0" prefWidth="84.0" text="name" />
             <Label layoutX="14.0" layoutY="81.0" prefHeight="25.0" prefWidth="84.0" text="Phone" />
             <Label layoutX="14.0" layoutY="116.0" prefHeight="25.0" prefWidth="84.0" text="email" />
-            <TableView fx:id="tv_owner" layoutX="14.0" layoutY="16.0" prefHeight="200.0" prefWidth="466.0" />
          </children>
       </Pane>
       <Button fx:id="btn_proceed" layoutX="526.0" layoutY="340.0" mnemonicParsing="false" onAction="#onClickbtn_proceed" text="proceed" />
+      <Button fx:id="btn_cancel" layoutX="530.0" layoutY="244.0" mnemonicParsing="false" onAction="#onClickBtn_cancel" text="cancel" />
+      <TableView fx:id="tv_owner" layoutX="26.0" layoutY="158.0" prefHeight="210.0" prefWidth="499.0" />
    </children>
 </AnchorPane>

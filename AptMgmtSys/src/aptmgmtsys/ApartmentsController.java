@@ -9,6 +9,7 @@ import aptmgmtsys.utils.DBConnect;
 import aptmgmtsys.utils.TableLoader;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -77,8 +78,9 @@ public class ApartmentsController implements Initializable {
             Logger.getLogger(ApartmentsController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        searchQ = "select * from Flats where ";
-        dynamicSearch = searchQ + " apt_no = '";
+        searchQ = "select flatID, apt_no, area, level_, completionDate from Flats where ";
+        dynamicSearch = searchQ + " apt_no like '";
+
 
         mbtn_searchBy.setText("search by apt_no");
 
@@ -121,7 +123,7 @@ public class ApartmentsController implements Initializable {
         String dynQry;
         if (search_ != "") {
             try {
-                dynQry = dynamicSearch + search_ + "'";
+                dynQry = dynamicSearch + "%" + search_ + "%'";
                 TableLoader.loadTable(dynQry, tv_apartments);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(ApartmentsController.class.getName()).log(Level.SEVERE, null, ex);
@@ -149,7 +151,7 @@ public class ApartmentsController implements Initializable {
     private void onClickBtn_showall(ActionEvent event) {
 
         try {
-            tableLoader.loadTable("select flatID, apt_no, area, level_ from Flats", tv_apartments);
+            tableLoader.loadTable("select flatID, apt_no, area, level_, completionDate from Flats", tv_apartments);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ApartmentsController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -164,10 +166,33 @@ public class ApartmentsController implements Initializable {
 
             Object s = tv_apartments.getSelectionModel().getSelectedItems().get(0);
             System.out.println(s.toString().split(", ")[1].substring(1));
-            String flatID = s.toString().split(", ")[0].substring(1); //got the 2nd column of selected row -> first col = course id
-            System.out.println("flat id : " + flatID);
+            String fapt = s.toString().split(", ")[1]; //got the 2nd column of selected row -> first col = course id
+            System.out.println("flat id : " + fapt);
 
-            dbcon.insertDataToDB("delete from Flats where FlatID = '" + flatID + "'");
+            //i know the apt_no
+            //get owner phone
+            String ownerPhone = "";
+            int ownedflats = 0;
+            ResultSet ors = dbcon.queryToDB("select count(*), phone from _ownerXflat where phone = (select phone from _ownerXflat where apt_no = '" + fapt + "') group by phone");
+            if (ors.next()) {
+
+               
+                    ownerPhone = ors.getString("phone");
+                    ownedflats = ors.getInt(1);
+          
+                    //System.out.println("pai nai owner er phone using apt no in mapping, aptcontroller,  " + e);
+             
+            }
+            //del from mapping using apt_no
+            dbcon.insertDataToDB("delete from _ownerXflat where apt_no = '" + fapt + "'");
+            ownedflats--;
+            //del from flats
+            dbcon.insertDataToDB("delete from Flats where apt_no = '" + fapt + "'");
+            // now check owner status, if any ownership left using ownerid
+            if (ownedflats == 0) {
+                //update to former
+                dbcon.queryToDB("update Owners set status_ = 'former' where phone = '" + ownerPhone + "'");
+            }
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Success");
@@ -199,7 +224,7 @@ public class ApartmentsController implements Initializable {
             window.setScene(scr);
 
             Object s = tv_apartments.getSelectionModel().getSelectedItems().get(0);
-            
+
             System.out.println(s.toString().split(", ")[1].substring(1));
 
             String flatID = s.toString().split(", ")[0].substring(1); //got the 2nd column of selected row -> first col = course id
