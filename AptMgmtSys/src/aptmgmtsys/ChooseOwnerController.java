@@ -72,6 +72,7 @@ public class ChooseOwnerController implements Initializable {
             s = tv_owner.getSelectionModel().getSelectedItems().get(0);
             Bundle.selected = s;
             name = s.toString().split(", ")[0];
+            name = name.substring(1, name.length());
             phone = s.toString().split(", ")[1];
 
             //how many flats
@@ -79,12 +80,22 @@ public class ChooseOwnerController implements Initializable {
 
             rs.next();
             Bundle.intdata = rs.getInt(1);
-            Parent root = FXMLLoader.load(getClass().getResource("Billing.fxml"));
-            Scene scr = new Scene(root);
-            Stage window = (Stage) btn_select.getScene().getWindow();
-            window.setTitle("Billing");
-            window.setScene(scr);
-            window.show();
+            
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("Billing.fxml"));
+                Scene scr = new Scene(root);
+                Stage window = (Stage) btn_select.getScene().getWindow();
+                window.close();
+                
+//                window.setTitle("Billing");
+//                window.setScene(scr);
+//                window.show();
+            } catch (Exception e) {
+                
+                System.out.println("ekhane shomossha");
+            }
+            
+            
         } catch (Exception e) {
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
