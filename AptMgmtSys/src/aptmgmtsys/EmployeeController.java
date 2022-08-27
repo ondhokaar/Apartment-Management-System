@@ -9,6 +9,7 @@ import aptmgmtsys.utils.TableLoader;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -19,6 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -77,7 +79,7 @@ public class EmployeeController implements Initializable {
         try {
             dbcon.connectToDB();
 
-            TableLoader.loadTable("select name, phone, designation from Employees where status_ = 'present'", tv_employee);
+            TableLoader.loadTable("select name, phone, empID, designation from Employees where status_ = 'present'", tv_employee);
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(EmployeeController.class.getName()).log(Level.SEVERE, null, ex);
@@ -141,6 +143,19 @@ public class EmployeeController implements Initializable {
 
     @FXML
     private void onClickBtn_dismiss(ActionEvent event) {
+        try {
+            Object s = tv_employee.getSelectionModel().getSelectedItems().get(0);
+            String empID = s.toString().split(", ")[2];
+
+            boolean b = dbcon.insertDataToDB("update Employees set status_ = 'former' where empID = '" + empID + "'");
+            showAlert(b, "done");
+            TableLoader.loadTable("select name, phone, empID, designation from Employees where status_ = 'present'", tv_employee);
+
+        } catch (Exception ex) {
+            showAlert(false, "could not dismiss");
+        }
+
+
     }
 
     @FXML
@@ -171,7 +186,7 @@ public class EmployeeController implements Initializable {
 
         try {
 
-            TableLoader.loadTable("select name, phone, designation, empID from Employees where status_ = 'present'", tv_employee);
+            TableLoader.loadTable("select name, phone, empID, designation from Employees where status_ = 'present'", tv_employee);
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(EmployeeController.class.getName()).log(Level.SEVERE, null, ex);
@@ -185,7 +200,7 @@ public class EmployeeController implements Initializable {
 
         try {
 
-            TableLoader.loadTable("select name, phone, designation, empID from Employees", tv_employee);
+            TableLoader.loadTable("select name, phone, empID, designation  from Employees", tv_employee);
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(EmployeeController.class.getName()).log(Level.SEVERE, null, ex);
@@ -195,4 +210,18 @@ public class EmployeeController implements Initializable {
 
     }
 
+    private void showAlert(boolean success, String msg) {
+        Alert alert;
+        if (success) {
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+        } else {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("FAILED");
+        }
+
+        alert.setHeaderText(msg);
+        alert.setContentText("---");
+        alert.showAndWait();
+    }
 }

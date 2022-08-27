@@ -27,6 +27,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import sun.security.pkcs11.Secmod;
 
@@ -64,6 +65,8 @@ public class ApartmentsController implements Initializable {
     private Button btn_remove;
     @FXML
     private Button btn_sell;
+    @FXML
+    private Button btn_viewDetails;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -80,7 +83,6 @@ public class ApartmentsController implements Initializable {
 
         searchQ = "select flatID, apt_no, area, level_, completionDate from Flats where ";
         dynamicSearch = searchQ + " apt_no like '";
-
 
         mbtn_searchBy.setText("search by apt_no");
 
@@ -152,10 +154,14 @@ public class ApartmentsController implements Initializable {
 
         try {
             tableLoader.loadTable("select flatID, apt_no, area, level_, completionDate from Flats", tv_apartments);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ApartmentsController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(ApartmentsController.class.getName()).log(Level.SEVERE, null, ex);
+        
+        
+                btn_sell.setDisable(tv_apartments.getSelectionModel().getSelectedItems().get(0) == null);
+        btn_remove.setDisable(tv_apartments.getSelectionModel().getSelectedItems().get(0) == null);
+        btn_viewDetails.setDisable(tv_apartments.getSelectionModel().getSelectedItems().get(0) == null);
+        
+        }catch (Exception ex) {
+            
         }
     }
 
@@ -176,12 +182,10 @@ public class ApartmentsController implements Initializable {
             ResultSet ors = dbcon.queryToDB("select count(*), phone from _ownerXflat where phone = (select phone from _ownerXflat where apt_no = '" + fapt + "') group by phone");
             if (ors.next()) {
 
-               
-                    ownerPhone = ors.getString("phone");
-                    ownedflats = ors.getInt(1);
-          
-                    //System.out.println("pai nai owner er phone using apt no in mapping, aptcontroller,  " + e);
-             
+                ownerPhone = ors.getString("phone");
+                ownedflats = ors.getInt(1);
+
+                //System.out.println("pai nai owner er phone using apt no in mapping, aptcontroller,  " + e);
             }
             //del from mapping using apt_no
             dbcon.insertDataToDB("delete from _ownerXflat where apt_no = '" + fapt + "'");
@@ -234,6 +238,15 @@ public class ApartmentsController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(ApartmentsController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @FXML
+    private void OMC_tv_apt(MouseEvent event) {
+        btn_sell.setDisable(tv_apartments.getSelectionModel().getSelectedItems().get(0) == null);
+        btn_remove.setDisable(tv_apartments.getSelectionModel().getSelectedItems().get(0) == null);
+        btn_viewDetails.setDisable(tv_apartments.getSelectionModel().getSelectedItems().get(0) == null);
+
+
     }
 
 }

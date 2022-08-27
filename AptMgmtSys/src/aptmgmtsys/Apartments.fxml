@@ -15,7 +15,7 @@
       <Label layoutX="265.0" layoutY="25.0" text="All Apartments" />
       <Pane layoutX="18.0" layoutY="53.0" prefHeight="200.0" prefWidth="573.0" style="-fx-border-color: red;">
          <children>
-            <TableView fx:id="tv_apartments" prefHeight="200.0" prefWidth="573.0" />
+            <TableView fx:id="tv_apartments" onMouseClicked="#OMC_tv_apt" prefHeight="200.0" prefWidth="573.0" />
          </children></Pane>
       <Pane layoutX="18.0" layoutY="253.0" prefHeight="103.0" prefWidth="566.0">
          <children>
@@ -29,22 +29,22 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button id="BUTTON" layoutX="92.0" layoutY="40.0" mnemonicParsing="false" stylesheets="@ButtonStyle.css" text="Update">
+            <Button id="BUTTON" disable="true" layoutX="92.0" layoutY="40.0" mnemonicParsing="false" stylesheets="@ButtonStyle.css" text="Update" visible="false">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button id="BUTTON" fx:id="btn_remove" layoutX="163.0" layoutY="40.0" mnemonicParsing="false" onAction="#onClickbtn_remove" stylesheets="@ButtonStyle.css" text="Remove">
+            <Button id="BUTTON" fx:id="btn_remove" disable="true" layoutX="163.0" layoutY="40.0" mnemonicParsing="false" onAction="#onClickbtn_remove" stylesheets="@ButtonStyle.css" text="Remove">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button id="BUTTON" fx:id="btn_sell" layoutX="234.0" layoutY="40.0" mnemonicParsing="false" onAction="#onClickBtn_sell" stylesheets="@ButtonStyle.css" text="Sell">
+            <Button id="BUTTON" fx:id="btn_sell" disable="true" layoutX="234.0" layoutY="40.0" mnemonicParsing="false" onAction="#onClickBtn_sell" stylesheets="@ButtonStyle.css" text="Sell">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button id="BUTTON" layoutX="389.0" layoutY="40.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" stylesheets="@ButtonStyle.css" text="View Details">
+            <Button id="BUTTON" fx:id="btn_viewDetails" disable="true" layoutX="389.0" layoutY="40.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" stylesheets="@ButtonStyle.css" text="View Details">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
