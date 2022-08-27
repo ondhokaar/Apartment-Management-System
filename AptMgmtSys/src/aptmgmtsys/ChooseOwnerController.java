@@ -23,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
@@ -47,13 +48,17 @@ public class ChooseOwnerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dbcon = new DBConnect();
+        try {
+            dbcon.connectToDB();
+        } catch (Exception e) {
+        }
         init();
+        Bundle.selected=null;
     }
 
     public void init() {
         try {
             // TODO
-            dbcon.connectToDB();
 
             TableLoader.loadTable("select name, phone, email, ownerID from Owners where status_ = 'present'", tv_owner);
         } catch (ClassNotFoundException ex) {
@@ -80,22 +85,21 @@ public class ChooseOwnerController implements Initializable {
 
             rs.next();
             Bundle.intdata = rs.getInt(1);
-            
+
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("Billing.fxml"));
                 Scene scr = new Scene(root);
                 Stage window = (Stage) btn_select.getScene().getWindow();
                 window.close();
-                
+
 //                window.setTitle("Billing");
 //                window.setScene(scr);
 //                window.show();
             } catch (Exception e) {
-                
+
                 System.out.println("ekhane shomossha");
             }
-            
-            
+
         } catch (Exception e) {
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -112,16 +116,20 @@ public class ChooseOwnerController implements Initializable {
     private void onClickBtn_back(ActionEvent event) {
         try {
 
-            Parent billing = FXMLLoader.load(getClass().getResource("Billing.fxml"));
-            Scene scr = new Scene(billing);
-            Stage window = (Stage) btn_back.getScene().getWindow();
-            window.setTitle("Apartment Mangement System : Billng");
-            window.setScene(scr);
-            window.show();
+            ((Stage) (btn_back.getScene().getWindow())).close();
 
         } catch (Exception ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("no owner");
+            alert.setHeaderText("nothing selected");
+            alert.setContentText("---------------");
+            alert.showAndWait();
         }
+    }
+
+    @FXML
+    private void OMC_tv_owner(MouseEvent event) {
+        btn_select.setDisable(tv_owner.getSelectionModel().getSelectedItems().get(0) == null);
     }
 
 }

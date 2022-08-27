@@ -32,6 +32,8 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -41,6 +43,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javax.naming.Binding;
+import javax.print.Doc;
 
 /**
  * FXML Controller class
@@ -80,6 +83,10 @@ public class BillingController implements Initializable {
     private String ownerphone;
     private String owneremail;
     private String ownerid;
+    @FXML
+    private DatePicker dp_billFrom;
+    @FXML
+    private DatePicker dp_billTo;
 
     /**
      * Initializes the controller class.
@@ -87,6 +94,10 @@ public class BillingController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dbcon = new DBConnect();
+
+        btn_addToInvoice.setDisable(true);
+        btn_createpdf.setDisable(true);
+
         try {
             // TODO
 
@@ -115,6 +126,7 @@ public class BillingController implements Initializable {
 
     @FXML
     private void onClickBtn_back(ActionEvent event) {
+
         try {
 
             Parent home = FXMLLoader.load(getClass().getResource("Home.fxml"));
@@ -156,18 +168,16 @@ public class BillingController implements Initializable {
 //        }
 
 //================now insert into db billings
- 
             deadline = (LocalDate) dp_deadline.getValue() + "";
             //insert into Billings values(GETDATE(), '2022-9-9', 65, 'status_', '01756060071', 'shabbir')
             String qry = "insert into Billings values(getdate(), '" + deadline + "', " + sumtotal + ", 'pending', '" + ownerphone + "', '" + ownername + "')";
             boolean dbin = dbcon.insertDataToDB(qry);
 
-            
             //=====================create text file
             ResultSet rss = dbcon.queryToDB("select billID from Billings where sl = (select max(sl) from Billings )");
             rss.next();
 
-           invname = rss.getString("billID");
+            invname = rss.getString("billID");
 
             boolean invoiceCreated = false;
             invoiceCreated = DocumentCreator.createInvoice(deadline, sumtotal, childrens, invname + ".txt");
@@ -210,6 +220,9 @@ public class BillingController implements Initializable {
 
         tf_amount.clear();
         tf_service.clear();
+        btn_addToInvoice.setDisable(true);
+
+        dp_deadline.setDisable(false);
 
     }
 
@@ -219,6 +232,9 @@ public class BillingController implements Initializable {
         //choose owner fxml
         row = 0;
         gp.getChildren().clear();
+        sumtotal = 0;
+        label_totalbill.setText("" + sumtotal);
+        btn_createpdf.setDisable(true);
 
         Parent root;
         try {
@@ -229,31 +245,81 @@ public class BillingController implements Initializable {
             window.setTitle("Choose Owner");
             window.setScene(scr);
             window.showAndWait();
+
             System.out.println("good");
 
-        } catch (IOException ex) {
-            Logger.getLogger(BillingController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("i am good so far");
+            //get owner/
+            ownername = Bundle.selected.toString().split(", ")[0];
+            ownername = ownername.substring(1, ownername.length());
+            ownerphone = Bundle.selected.toString().split(", ")[1];
+            owneremail = Bundle.selected.toString().split(", ")[2];
+            ownerid = Bundle.selected.toString().split(", ")[3];
+            ownerid = ownerid.substring(0, ownerid.length() - 1);
+            btn_owner.setText("Billing for Mr " + ownername);
+            //set owner on invoice
+            row = 3;
+            gp.add(new Label("name: " + ownername), 0, row);
+            gp.add(new Label("phone: " + ownerphone), 0, ++row);
+
+            //gp.add(new Label("==================================="), 1, row);
+            row++;
+            tf_amount.setDisable(false);
+            tf_service.setDisable(false);
+
+        } catch (Exception ex) {
+            showAlert(false, "error during selecting owner");
+            tf_amount.setDisable(!false);
+            tf_service.setDisable(!false);
+
         }
-
-        System.out.println("i am good so far");
-        //get owner/
-        ownername = Bundle.selected.toString().split(", ")[0];
-        ownername = ownername.substring(1, ownername.length());
-        ownerphone = Bundle.selected.toString().split(", ")[1];
-        owneremail = Bundle.selected.toString().split(", ")[2];
-        ownerid = Bundle.selected.toString().split(", ")[3];
-        ownerid = ownerid.substring(0, ownerid.length() - 1);
-        btn_owner.setText("Billing for Mr " + ownername);
-        //set owner on invoice
-        row = 3;
-        gp.add(new Label("name: " + ownername), 0, row);
-        gp.add(new Label("phone: " + ownerphone), 0, ++row);
-
-        //gp.add(new Label("==================================="), 1, row);
-        row++;
     }
 
     //================================================
+    @FXML
+    private void onClickDp_billFrom(ActionEvent event) {
+        btn_createpdf.setDisable(!(!(sumtotal == 0) && !(dp_billFrom.getValue() == null)));
+        dp_billTo.setDisable(dp_billFrom.getValue() == null);
+        dp_deadline.setDisable(dp_billFrom.getValue() == null);
+    }
+
+    @FXML
+    private void onClickDp_billTo(ActionEvent event) {
+
+        btn_createpdf.setDisable(!(!(sumtotal == 0) && !(dp_billTo.getValue() == null)));
+        btn_owner.setDisable(dp_billTo.getValue() == null);
+        dp_deadline.setDisable(dp_billTo.getValue() == null);
+    }
+
+    @FXML
+    private void onClickDp_deadline(ActionEvent event) {
+
+        btn_createpdf.setDisable(dp_deadline.getValue() == null);
+    }
+
+    @FXML
+    private void OKR_tfAdditionals(KeyEvent event) {
+
+        try {
+            btn_addToInvoice.setDisable(!(!(tf_service.getText().trim().length() == 0) && !(Double.valueOf(tf_amount.getText()) == 0)));
+        } catch (Exception exception) {
+            btn_addToInvoice.setDisable(true);
+        }
+
+    }
+
+    private void showAlert(boolean success, String msg) {
+        Alert alert;
+        if (success) {
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+        } else {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("FAILED");
+        }
+
+        alert.setHeaderText(msg);
+        alert.setContentText("---");
+        alert.showAndWait();
+    }
 }

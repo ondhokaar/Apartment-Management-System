@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="aptmgmtsys.ChooseServiceController">
+   <children>
+      <Label layoutX="294.0" layoutY="36.0" text="Services" />
+      <Pane fx:id="pane_existing" layoutX="14.0" layoutY="70.0" prefHeight="308.0" prefWidth="567.0">
+         <children>
+            <TableView fx:id="tv_emp" layoutX="28.0" layoutY="30.0" prefHeight="200.0" prefWidth="514.0" />
+            <MenuButton fx:id="mbtn_search" layoutX="188.0" layoutY="243.0" mnemonicParsing="false" text="Search by phone">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </MenuButton>
+            <TextField layoutX="326.0" layoutY="243.0" prefHeight="25.0" prefWidth="216.0" />
+            <Button fx:id="btn_select" layoutX="421.0" layoutY="282.0" mnemonicParsing="false" onAction="#onClickBtn_select" prefHeight="25.0" prefWidth="121.0" text="select" />
+            <Button layoutX="284.0" layoutY="282.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="back" />
+            <Button fx:id="btn_gotoAddNew" layoutX="28.0" layoutY="243.0" mnemonicParsing="false" onAction="#onClickBtn_gotoAddNew" prefHeight="25.0" prefWidth="121.0" text="+ Add New Service" />
+         </children>
+      </Pane>
+      <Pane fx:id="pane_addnew" disable="true" layoutX="26.0" layoutY="75.0" prefHeight="281.0" prefWidth="544.0" visible="false">
+         <children>
+            <TextField fx:id="tf_name" layoutX="143.0" layoutY="63.0" />
+            <Label layoutX="39.0" layoutY="63.0" prefHeight="25.0" prefWidth="81.0" text="Service Name" />
+            <TextField fx:id="tf_phone" layoutX="143.0" layoutY="109.0" onKeyReleased="#OKR_phone" />
+            <Label layoutX="39.0" layoutY="109.0" prefHeight="25.0" prefWidth="81.0" text="Service Phone" />
+            <TextField fx:id="tf_email" layoutX="143.0" layoutY="160.0" onKeyReleased="#OKR_mail" />
+            <Label layoutX="39.0" layoutY="160.0" prefHeight="25.0" prefWidth="81.0" text="Service Email" />
+            <TextField fx:id="tf_details" layoutX="143.0" layoutY="217.0" />
+            <Label layoutX="39.0" layoutY="217.0" prefHeight="25.0" prefWidth="81.0" text="Details" />
+            <Button fx:id="btn_add" layoutX="361.0" layoutY="242.0" mnemonicParsing="false" onAction="#onClickBtn_add" text="Add Service" />
+            <Button fx:id="btn_showExisting" layoutX="458.0" layoutY="242.0" mnemonicParsing="false" onAction="#onClickBtn_showExisting" text="See Existing" />
+            <Label fx:id="label_dupphone" layoutX="318.0" layoutY="113.0" prefHeight="17.0" prefWidth="132.0" />
+            <Label fx:id="label_dupmail" layoutX="326.0" layoutY="164.0" prefHeight="17.0" prefWidth="132.0" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

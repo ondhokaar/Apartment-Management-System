@@ -40,9 +40,7 @@
             <MenuButton fx:id="mbtn_type" layoutX="176.0" layoutY="20.0" mnemonicParsing="false" text="Select Payee Type">
               <items>
                 <MenuItem fx:id="mitem_employee" mnemonicParsing="false" onAction="#onClickMitem_employee" text="Employee" />
-                <MenuItem fx:id="mitem_oldService" mnemonicParsing="false" onAction="#onClickMitem_oldService" text="Existing Service" />
-                  <MenuItem fx:id="mitem_newService" mnemonicParsing="false" onAction="#onClickMitem_newService" text="New Service" />
-                  <MenuItem fx:id="mitem_newService1" mnemonicParsing="false" onAction="#onClickMitem_newService" text="New Service" />
+                <MenuItem fx:id="mitem_oldService" mnemonicParsing="false" onAction="#onClickMitem_oldService" text="Service" />
               </items>
                <cursor>
                   <Cursor fx:constant="HAND" />
