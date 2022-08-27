@@ -62,6 +62,22 @@ public class BillStatusController implements Initializable {
 
         boolean test = dbcon.insertDataToDB("update Billings set status_ = 'paid' where billID = '" + billID + "'");
         if (test) {
+            
+            
+            
+            //run qry , add bill to fund===========
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("success, added to fund");
             alert.setHeaderText("Bill amount added to fund");

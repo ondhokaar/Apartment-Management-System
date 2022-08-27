@@ -3,6 +3,8 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,25 +12,29 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aptmgmtsys.EmployeeController">
    <children>
-      <Button fx:id="btn_back" layoutX="545.0" layoutY="352.0" mnemonicParsing="false" onAction="#onClickBtn_back" text="Back">
+      <Button fx:id="btn_back" layoutX="529.0" layoutY="356.0" mnemonicParsing="false" onAction="#onClickBtn_back" prefHeight="25.0" prefWidth="46.0" text="Back">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
       <Label layoutX="280.0" layoutY="35.0" text="Employee" />
-      <Pane layoutX="52.0" layoutY="78.0" prefHeight="235.0" prefWidth="330.0" style="-fx-border-color: red;">
+      <Pane layoutX="14.0" layoutY="310.0" prefHeight="84.0" prefWidth="495.0" AnchorPane.bottomAnchor="10.0">
          <children>
-            <TableView fx:id="tv_employee" prefHeight="235.0" prefWidth="330.0" />
-         </children></Pane>
-      <Pane layoutX="386.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: red;">
-         <children>
-            <TextField layoutX="21.0" layoutY="31.0" />
-            <Label layoutX="23.0" layoutY="6.0" prefHeight="25.0" prefWidth="72.0" text="Search" />
+            <TextField fx:id="tf_search" layoutX="116.0" layoutY="6.0" onKeyReleased="#OKR_search" />
+            <Button fx:id="btn_addNew" layoutX="14.0" layoutY="47.0" mnemonicParsing="false" onAction="#onClickBtn_addNew" text="Appoint New" />
+            <Button fx:id="btn_dismiss" layoutX="150.0" layoutY="47.0" mnemonicParsing="false" onAction="#onClickBtn_dismiss" text="Dismiss" />
+            <Button fx:id="btn_details" layoutX="407.0" layoutY="50.0" mnemonicParsing="false" onAction="#onClickBtn_details" text="View Details" />
+            <Button fx:id="btn_update" layoutX="220.0" layoutY="47.0" mnemonicParsing="false" onAction="#onClickBtn_update" text="Update" />
+            <MenuButton fx:id="mbtn_search" layoutX="15.0" layoutY="6.0" mnemonicParsing="false" text="Search by ID">
+              <items>
+                <MenuItem fx:id="mi_empID" mnemonicParsing="false" onAction="#onClickMi_empID" text="employee id" />
+                <MenuItem fx:id="mi_phone" mnemonicParsing="false" onAction="#onClickMi_phone" text="Phone" />
+              </items>
+            </MenuButton>
+            <Button fx:id="btn_refreshF" layoutX="275.0" layoutY="6.0" mnemonicParsing="false" onAction="#onClickBtn_refreshF" prefWidth="151.0" text="Include Former Employee" />
          </children>
       </Pane>
-      <Button fx:id="btn_addNew" layoutX="59.0" layoutY="340.0" mnemonicParsing="false" onAction="#onClickBtn_addNew" text="Add new" />
-      <Button layoutX="132.0" layoutY="340.0" mnemonicParsing="false" text="Dismiss" />
-      <Button layoutX="273.0" layoutY="340.0" mnemonicParsing="false" text="View Details" />
-      <Button layoutX="200.0" layoutY="340.0" mnemonicParsing="false" text="Update" />
+      <TableView fx:id="tv_employee" layoutX="141.0" layoutY="68.0" prefHeight="235.0" prefWidth="330.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Button fx:id="btn_refresh" layoutX="448.0" layoutY="312.0" mnemonicParsing="false" onAction="#onClickBtn_refresh" prefHeight="25.0" prefWidth="127.0" text="Refresh" />
    </children>
 </AnchorPane>

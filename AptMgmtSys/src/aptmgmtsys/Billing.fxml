@@ -16,11 +16,6 @@
 
 <AnchorPane id="AnchorPane" prefHeight="456.0" prefWidth="641.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aptmgmtsys.BillingController">
    <children>
-      <Button fx:id="btn_back" layoutX="425.0" layoutY="349.0" mnemonicParsing="false" onAction="#onClickBtn_back" text="Back">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
       <AnchorPane layoutX="14.0" layoutY="33.0" minHeight="0.0" minWidth="0.0" prefHeight="246.0" prefWidth="539.0">
          <children>
             <TextField fx:id="tf_service" layoutX="108.0" layoutY="109.0" />
@@ -39,7 +34,6 @@
       <Label layoutX="263.0" layoutY="19.0" prefHeight="17.0" prefWidth="106.0" text="Create Bill" />
       <DatePicker fx:id="dp_deadline" layoutX="121.0" layoutY="298.0" prefHeight="25.0" prefWidth="157.0" />
       <Label layoutX="31.0" layoutY="298.0" prefHeight="25.0" prefWidth="56.0" text="Deadline" />
-      <Button fx:id="btn_createpdf" layoutX="476.0" layoutY="349.0" mnemonicParsing="false" onAction="#onClickBtn_createpdf" text="Create Invoice" />
       <ScrollPane fx:id="sp" fitToWidth="true" hmax="100.0" layoutX="319.0" layoutY="75.0" pannable="true" prefHeight="268.0" prefWidth="263.0" vbarPolicy="ALWAYS" vmax="100.0">
          <content>
             <Pane prefHeight="9.999999999E9" prefWidth="241.0">
@@ -68,15 +62,21 @@
             </Pane>
          </content>
       </ScrollPane>
-      <Label layoutX="340.0" layoutY="396.0" text="Total Bill ">
+      <Label layoutX="340.0" layoutY="349.0" text="Total Bill ">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Label fx:id="label_totalbill" alignment="CENTER_RIGHT" layoutX="429.0" layoutY="397.0" prefHeight="28.0" prefWidth="149.0" text="000" textAlignment="RIGHT" textFill="#001dff">
+      <Label fx:id="label_totalbill" alignment="CENTER_RIGHT" layoutX="429.0" layoutY="350.0" prefHeight="28.0" prefWidth="149.0" text="000" textAlignment="RIGHT" textFill="#001dff">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
+      <Button fx:id="btn_back" layoutX="429.0" layoutY="406.0" mnemonicParsing="false" onAction="#onClickBtn_back" text="Back">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="btn_createpdf" layoutX="480.0" layoutY="406.0" mnemonicParsing="false" onAction="#onClickBtn_createpdf" text="Create Invoice" />
    </children>
 </AnchorPane>

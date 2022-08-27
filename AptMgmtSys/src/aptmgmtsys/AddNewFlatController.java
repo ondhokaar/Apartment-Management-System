@@ -5,6 +5,7 @@
 package aptmgmtsys;
 
 import aptmgmtsys.utils.DBConnect;
+import aptmgmtsys.utils.FilePaths;
 import aptmgmtsys.utils.TableLoader;
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import java.time.ZoneId;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -66,7 +68,7 @@ public class AddNewFlatController implements Initializable {
     private boolean a, b, c, d, e, f;
     String insertQry, dupAptQry;
     DBConnect dbcon;
-    private TableView<?> tab;
+
 
     /**
      * Initializes the controller class.
@@ -191,6 +193,10 @@ public class AddNewFlatController implements Initializable {
 
                 if (st) {
                     //success
+                    //File docs = new File(label_doc.getText());
+                   // System.out.println(label_doc.getText().split(Pattern.quote(File.separator)));
+                    //docs.renameTo(new File(   FilePaths.FlatDocs + label_doc.getText().split("\\")[1]    )     );
+                    
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("success");
                     alert.setHeaderText("New Apartment Has been added");
@@ -217,8 +223,6 @@ public class AddNewFlatController implements Initializable {
                     alert.setContentText("---");
                     alert.showAndWait();
                 }
-                System.out.println("done");
-                TableLoader.loadTable("select * from Flats", tab);
 
             } else {
 
