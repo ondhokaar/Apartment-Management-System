@@ -23,7 +23,7 @@ public class DocumentCreator {
 
         try {
 
-            fw = new PrintWriter(invoiceName);
+            fw = new PrintWriter("bills/" + invoiceName);
             BufferedWriter bw = new BufferedWriter(fw);
             
 
@@ -48,6 +48,7 @@ public class DocumentCreator {
             
             
             bw.write("\nPay on or before : " + deadline);
+            bw.write("\ncreated on : " +     new java.util.Date() );
             
             
             bw.close();
