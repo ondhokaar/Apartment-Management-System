@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -21,15 +22,18 @@
       <Pane layoutX="14.0" layoutY="310.0" prefHeight="84.0" prefWidth="495.0" AnchorPane.bottomAnchor="10.0">
          <children>
             <TextField fx:id="tf_search" layoutX="116.0" layoutY="6.0" onKeyReleased="#OKR_search" />
-            <Button fx:id="btn_addNew" layoutX="14.0" layoutY="47.0" mnemonicParsing="false" onAction="#onClickBtn_addNew" text="Appoint New" />
+            <Button fx:id="btn_addNew" layoutX="-9.0" layoutY="47.0" mnemonicParsing="false" onAction="#onClickBtn_addNew" prefHeight="25.0" prefWidth="109.0" text="Appoint New" />
             <Button fx:id="btn_dismiss" layoutX="150.0" layoutY="47.0" mnemonicParsing="false" onAction="#onClickBtn_dismiss" text="Dismiss" />
             <Button fx:id="btn_details" layoutX="407.0" layoutY="50.0" mnemonicParsing="false" onAction="#onClickBtn_details" text="View Details" />
             <Button fx:id="btn_update" layoutX="220.0" layoutY="47.0" mnemonicParsing="false" onAction="#onClickBtn_update" text="Update" />
-            <MenuButton fx:id="mbtn_search" layoutX="15.0" layoutY="6.0" mnemonicParsing="false" text="Search by ID">
+            <MenuButton fx:id="mbtn_search" layoutX="-8.0" layoutY="6.0" mnemonicParsing="false" text="Search by ID">
               <items>
                 <MenuItem fx:id="mi_empID" mnemonicParsing="false" onAction="#onClickMi_empID" text="employee id" />
                 <MenuItem fx:id="mi_phone" mnemonicParsing="false" onAction="#onClickMi_phone" text="Phone" />
               </items>
+               <padding>
+                  <Insets right="1.0" />
+               </padding>
             </MenuButton>
             <Button fx:id="btn_refreshF" layoutX="275.0" layoutY="6.0" mnemonicParsing="false" onAction="#onClickBtn_refreshF" prefWidth="151.0" text="Include Former Employee" />
          </children>

@@ -7,6 +7,7 @@ package aptmgmtsys;
 import aptmgmtsys.utils.DBConnect;
 import aptmgmtsys.utils.TableLoader;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -20,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
@@ -37,6 +39,8 @@ public class BillStatusController implements Initializable {
     private DBConnect dbcon;
     @FXML
     private Button btn_back;
+    private String billAmt;
+    private int availableAmount;
 
     /**
      * Initializes the controller class.
@@ -59,47 +63,30 @@ public class BillStatusController implements Initializable {
     private void onClickBtn_paid(ActionEvent event) {
         Object s = tv_bills.getSelectionModel().getSelectedItems().get(0);
         billID = s.toString().split(", ")[1];
+        billAmt = s.toString().split(", ")[4];
+        double latestAmt = calcLatestFund();
 
-        boolean test = dbcon.insertDataToDB("update Billings set status_ = 'paid' where billID = '" + billID + "'");
-        if (test) {
-            
-            
-            
-            //run qry , add bill to fund===========
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("success, added to fund");
-            alert.setHeaderText("Bill amount added to fund");
-            alert.setContentText("");
-            alert.showAndWait();
-            try {
-                // TODO
-   
-                TableLoader.loadTable("select * from Billings", tv_bills);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(BillStatusController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(BillStatusController.class.getName()).log(Level.SEVERE, null, ex);
+        //trx table, get current amount
+        if (latestAmt != -1) {
+            latestAmt += Double.valueOf(billAmt);
+
+            boolean fundAdded = dbcon.insertDataToDB("insert into Transactions values(getdate(), 'bill', " + billAmt + ", " + latestAmt + ")");
+            if (fundAdded) {
+                boolean b = dbcon.insertDataToDB("update Billings set status_ = 'paid' where billID = '" + billID + "'");
+                showAlert(true, "Trx made, Bill paid");
+                try {
+
+                    TableLoader.loadTable("select * from Billings", tv_bills);
+                } catch (Exception ex) {
+                    showAlert(false, "Could not load bills");
+                }
+
             }
 
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("failed");
-            alert.setHeaderText("could not update");
-            alert.setContentText("");
-            alert.showAndWait();
+            showAlert(false, "failed to read latest available fund");
         }
+
     }
 
     @FXML
@@ -119,4 +106,54 @@ public class BillStatusController implements Initializable {
 
     }
 
+    @FXML
+    private void OMC_tv_bills(MouseEvent event) {
+        btn_paid.setDisable(!(!(tv_bills.getSelectionModel().getSelectedItems().get(0) == null)    
+                
+                &&     !(tv_bills.getSelectionModel().getSelectedItems().get(0).toString().contains("paid"))));
+
+    }
+
+    private double calcLatestFund() {
+
+        try {
+            ResultSet rss = dbcon.queryToDB("select count(*) from Transactions");
+            rss.next();
+            int totalRow = rss.getInt(1);
+            if (totalRow == 0) {
+                return 0;
+            }
+
+        } catch (Exception e) {
+            showAlert(false, "sth went wrong during checking latest fund");
+
+        }
+
+        try {
+            //trx table, get current amount
+            ResultSet rs = dbcon.queryToDB("select latestAvailableAmount from Transactions where sl = (select max(sl) from Transactions)");
+            rs.next();
+            return rs.getDouble("latestAvailableAmount");
+
+        } catch (SQLException ex) {
+            showAlert(false, "sth went wrong during checking fund availibility");
+        }
+        return -1;
+
+    }
+
+    private void showAlert(boolean success, String msg) {
+        Alert alert;
+        if (success) {
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+        } else {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("FAILED");
+        }
+
+        alert.setHeaderText(msg);
+        alert.setContentText("---");
+        alert.showAndWait();
+    }
 }
