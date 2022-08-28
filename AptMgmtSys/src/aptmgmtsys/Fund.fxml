@@ -5,45 +5,37 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aptmgmtsys.FundController">
+<AnchorPane id="AnchorPane" prefHeight="551.0" prefWidth="756.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aptmgmtsys.FundController">
    <children>
-      <ScrollPane layoutX="27.0" layoutY="79.0" prefHeight="200.0" prefWidth="553.0">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="535.0">
-               <children>
-                  <Pane layoutX="312.0" layoutY="14.0" prefHeight="73.0" prefWidth="221.0" style="-fx-border-color: red;">
-                     <children>
-                        <Label layoutX="18.0" layoutY="6.0" prefHeight="52.0" prefWidth="96.0" text="Available Amount" />
-                        <Label fx:id="label_availableFund" layoutX="135.0" layoutY="6.0" prefHeight="52.0" prefWidth="72.0" text="0000" />
-                     </children>
-                  </Pane>
-                  <TextField fx:id="tb_search" layoutX="327.0" layoutY="153.0" onKeyReleased="#onKeyReleasedTb_search" prefHeight="25.0" prefWidth="193.0" />
-                  <Label layoutX="328.0" layoutY="115.0" prefHeight="25.0" prefWidth="41.0" text="Search" />
-                  <Pane layoutY="2.0" prefHeight="192.0" prefWidth="295.0" style="-fx-border-color: red;">
-                     <children>
-                        <TableView fx:id="tv_fund" layoutX="1.0" layoutY="1.0" prefHeight="191.0" prefWidth="294.0" />
-                     </children></Pane>
-                  <MenuButton layoutX="410.0" layoutY="115.0" mnemonicParsing="false" text="Search by">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="Action 1" />
-                      <MenuItem mnemonicParsing="false" text="Action 2" />
-                    </items>
-                  </MenuButton>
-               </children></AnchorPane>
-        </content>
-      </ScrollPane>
       <Label layoutX="290.0" layoutY="37.0" prefHeight="17.0" prefWidth="59.0" text="Fund" />
-      <Button fx:id="btn_back" layoutX="539.0" layoutY="353.0" mnemonicParsing="false" onAction="#onClickBtn_back" text="Back">
+      <Button fx:id="btn_back" layoutX="577.0" layoutY="488.0" mnemonicParsing="false" onAction="#onClickBtn_back" prefHeight="25.0" prefWidth="131.0" text="Back">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button layoutX="423.0" layoutY="307.0" mnemonicParsing="false" text="??" />
+      <TableView fx:id="tv_fund" layoutX="14.0" layoutY="104.0" prefHeight="353.0" prefWidth="534.0" />
+      <Pane layoutX="566.0" layoutY="155.0" prefHeight="179.0" prefWidth="166.0" style="-fx-border-color: red;">
+         <children>
+            <Label layoutX="42.0" prefHeight="52.0" prefWidth="96.0" text="Available Amount" />
+            <Label fx:id="label_availableFund" alignment="CENTER" layoutX="35.0" layoutY="64.0" prefHeight="52.0" prefWidth="96.0" text="0000" textAlignment="CENTER" textFill="#0a51ff">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <TextField fx:id="tf_search" layoutX="175.0" layoutY="488.0" onKeyReleased="#OKR_tf_search" prefHeight="25.0" prefWidth="193.0" />
+      <MenuButton fx:id="mbtn_search" layoutX="14.0" layoutY="488.0" mnemonicParsing="false" text="Search by">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Action 1" />
+          <MenuItem mnemonicParsing="false" text="Action 2" />
+        </items>
+      </MenuButton>
    </children>
 </AnchorPane>

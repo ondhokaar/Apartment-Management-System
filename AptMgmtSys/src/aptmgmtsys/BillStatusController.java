@@ -74,6 +74,7 @@ public class BillStatusController implements Initializable {
             if (fundAdded) {
                 boolean b = dbcon.insertDataToDB("update Billings set status_ = 'paid' where billID = '" + billID + "'");
                 showAlert(true, "Trx made, Bill paid");
+                btn_paid.setDisable(true);
                 try {
 
                     TableLoader.loadTable("select * from Billings", tv_bills);

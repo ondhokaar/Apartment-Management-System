@@ -26,6 +26,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -42,6 +43,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javax.naming.Binding;
 import javax.print.Doc;
 
@@ -97,15 +99,15 @@ public class BillingController implements Initializable {
 
         btn_addToInvoice.setDisable(true);
         btn_createpdf.setDisable(true);
+        restrictDatePicker(LocalDate.of(1989, 4, 16), LocalDate.now(), dp_billFrom);
+
+        restrictDatePicker(LocalDate.now(), LocalDate.MAX, dp_deadline);
 
         try {
             // TODO
 
             dbcon.connectToDB();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BillingController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(BillingController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
         }
         //AnchorPane ap = new AnchorPane();
         // ap.resize(ap.getWidth(), ap.get);
@@ -137,7 +139,6 @@ public class BillingController implements Initializable {
             window.show();
 
         } catch (Exception ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -154,7 +155,6 @@ public class BillingController implements Initializable {
             window.show();
 
         } catch (Exception ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -185,26 +185,15 @@ public class BillingController implements Initializable {
 //==========================================
             if (invoiceCreated) {
                 //success
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("success");
-                alert.setHeaderText("Invoice created!");
-                alert.setContentText("---------------");
-                alert.showAndWait();
+                showAlert(true, "invoice created");
 
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("failed");
-                alert.setHeaderText("Invoice could not be created! >>");
-                alert.setContentText("");
-                alert.showAndWait();
+
+                showAlert(false, "Invoice could not be created! >>");
             }
 
         } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("failed");
-            alert.setHeaderText("Invoice could not be created! ex");
-            alert.setContentText(e.toString());
-            alert.showAndWait();
+            showAlert(false, "Invoice could not be created! ex");
         }
 
     }
@@ -281,6 +270,11 @@ public class BillingController implements Initializable {
         btn_createpdf.setDisable(!(!(sumtotal == 0) && !(dp_billFrom.getValue() == null)));
         dp_billTo.setDisable(dp_billFrom.getValue() == null);
         dp_deadline.setDisable(dp_billFrom.getValue() == null);
+        dp_deadline.setDisable(dp_billTo.getValue() == null);
+
+        if (!dp_billTo.isDisable()) {
+            restrictDatePicker(dp_billFrom.getValue(), LocalDate.now(), dp_billTo);
+        }
     }
 
     @FXML
@@ -289,6 +283,7 @@ public class BillingController implements Initializable {
         btn_createpdf.setDisable(!(!(sumtotal == 0) && !(dp_billTo.getValue() == null)));
         btn_owner.setDisable(dp_billTo.getValue() == null);
         dp_deadline.setDisable(dp_billTo.getValue() == null);
+
     }
 
     @FXML
@@ -322,4 +317,20 @@ public class BillingController implements Initializable {
         alert.setContentText("---");
         alert.showAndWait();
     }
+
+    public void restrictDatePicker(LocalDate minDate, LocalDate maxDate, DatePicker dp) {
+//        minDate = LocalDate.of(1989, 4, 16); //get joining since date 
+//        maxDate = LocalDate.now();
+
+        dp.setDayCellFactory(d
+                -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setDisable(item.isAfter(maxDate) || item.isBefore(minDate));
+            }
+        });
+
+    }
+
 }

@@ -4,7 +4,11 @@
  */
 package aptmgmtsys;
 
+import aptmgmtsys.utils.DBConnect;
+import aptmgmtsys.utils.TableLoader;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,8 +18,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -32,17 +38,31 @@ public class FundController implements Initializable {
     private Button btn_back;
     @FXML
     private Label label_availableFund;
-    @FXML
     private TextField tb_search;
     @FXML
     private TableView<?> tv_fund;
-
+    @FXML
+    private TextField tf_search;
+    @FXML
+    private MenuButton mbtn_search;
+    private DBConnect dbcon;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        dbcon = new DBConnect();
+        try {
+            dbcon.connectToDB();
+            
+            TableLoader.loadTable("select * from Transactions", tv_fund);
+            
+            label_availableFund.setText(""+ calcLatestFund());
+            
+            
+        } catch (Exception e) {
+        }
     }
 
     @FXML
@@ -57,16 +77,56 @@ public class FundController implements Initializable {
             window.show();
 
         } catch (Exception ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }
 
 
 
+
+
     @FXML
-    private void onKeyReleasedTb_search(KeyEvent event) {
-        label_availableFund.setText(tb_search.getText().toString());
+    private void OKR_tf_search(KeyEvent event) {
+    }
+    private void showAlert(boolean success, String msg) {
+        Alert alert;
+        if (success) {
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+        } else {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("FAILED");
+        }
+
+        alert.setHeaderText(msg);
+        alert.setContentText("---");
+        alert.showAndWait();
+    }
+        private double calcLatestFund() {
+
+        try {
+            ResultSet rss = dbcon.queryToDB("select count(*) from Transactions");
+            rss.next();
+            int totalRow = rss.getInt(1);
+            if (totalRow == 0) {
+                return 0;
+            }
+
+        } catch (Exception e) {
+            showAlert(false, "sth went wrong during checking latest fund");
+
+        }
+
+        try {
+            //trx table, get current amount
+            ResultSet rs = dbcon.queryToDB("select latestAvailableAmount from Transactions where sl = (select max(sl) from Transactions)");
+            rs.next();
+            return rs.getDouble("latestAvailableAmount");
+
+        } catch (SQLException ex) {
+            showAlert(false, "sth went wrong during checking fund availibility");
+        }
+        return -1;
 
     }
-
 }
