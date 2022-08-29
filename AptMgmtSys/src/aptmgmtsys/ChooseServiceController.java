@@ -101,7 +101,7 @@ public class ChooseServiceController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         final Pattern mailPattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
-        final Pattern phonePattern = Pattern.compile("^\\\\d{10}$");
+        final Pattern phonePattern = Pattern.compile("^[0-9]{11}$");
         final Pattern namePattern = Pattern.compile("^[A-Za-z\\s]+$");
 
         tf_name.setTextFormatter(new TextFormatter<>(new DefaultStringConverter(), "", change -> {
@@ -113,10 +113,7 @@ public class ChooseServiceController implements Initializable {
             final Matcher matcher = mailPattern.matcher(change.getControlNewText());
             return (matcher.matches() || matcher.hitEnd()) ? change : null;
         }));
-        tf_phone.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), 1, change -> {
-            final Matcher matcher = phonePattern.matcher(change.getControlNewText());
-            return (matcher.matches() || matcher.hitEnd()) ? change : null;
-        }));
+
         //*********************
         tf_email.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { //when focus lost

@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,10 +31,12 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.converter.DefaultStringConverter;
 
 /**
  * FXML Controller class
@@ -68,16 +72,77 @@ public class SellFlatController implements Initializable {
     boolean existing, newowner;
     @FXML
     private Button btn_cancel;
+    private boolean allgood;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //+++++++++++++++++++++++
+        allgood = false;
+        final Pattern mailPattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+        final Pattern phonePattern = Pattern.compile("^[0-9]{11}$");
+        final Pattern namePattern = Pattern.compile("^[A-Za-z\\s]+$");
+
+        tf_name.setTextFormatter(new TextFormatter<>(new DefaultStringConverter(), "", change -> {
+            final Matcher matcher = namePattern.matcher(change.getControlNewText());
+            return (matcher.matches() || matcher.hitEnd()) ? change : null;
+        }));
+
+        tf_email.setTextFormatter(new TextFormatter<>(new DefaultStringConverter(), "", change -> {
+            final Matcher matcher = mailPattern.matcher(change.getControlNewText());
+            return (matcher.matches() || matcher.hitEnd()) ? change : null;
+        }));
+
+        //*********************
+        tf_email.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { //when focus lost
+                if (!tf_email.getText().matches(mailPattern.toString())) {
+                    //when it not matches the pattern (1.0 - 6.0)
+                    //set the textField empty
+                    tf_email.setText("");
+                    tf_email.setStyle("-fx-border-color:red;");
+                } else {
+                    tf_email.setStyle("-fx-border-color:green;");
+                }
+            }
+
+        });
+        tf_name.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { //when focus lost
+                if (!tf_name.getText().matches(namePattern.toString())) {
+                    //when it not matches the pattern (1.0 - 6.0)
+                    //set the textField empty
+                    tf_name.setText("");
+                    tf_name.setStyle("-fx-border-color:red;");
+                } else {
+                    tf_name.setStyle("-fx-border-color:green;");
+                }
+            }
+
+        });
+
+        tf_phone.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { //when focus lost
+                if (!tf_phone.getText().matches(phonePattern.toString())) {
+                    //when it not matches the pattern (1.0 - 6.0)
+                    //set the textField empty
+                    tf_phone.setText("");
+                    tf_phone.setStyle("-fx-border-color:red;");
+                } else {
+                    tf_phone.setStyle("-fx-border-color:green;");
+                    
+                }
+            }
+
+        });
+
+        //+++++++++++++
         // TODO
         existing = true;
         newowner = false;
-        mbtn_existing.setText("Existing "); 
+        mbtn_existing.setText("Existing ");
         try {
             tv_owner.setCursor(Cursor.HAND);
             TableLoader.loadTable("select name, phone, status_, email from Owners", tv_owner);
@@ -114,11 +179,13 @@ public class SellFlatController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose Resource Files of This Flat");
 
-        File FlatDocs = fileChooser.showOpenDialog((Stage) (btn_nid.getScene().getWindow()));
-
-        if (FlatDocs != null) {
-            label_nid.setText(FlatDocs.toString());
+        File FlatDocss = fileChooser.showOpenDialog((Stage) (btn_nid.getScene().getWindow()));
+        
+        if (FlatDocss != null) {
+            allgood = true;
+            label_nid.setText(FlatDocss.toString());
         } else {
+            allgood = false;
             label_nid.setText("<no file chosen>");
         }
     }
@@ -129,7 +196,9 @@ public class SellFlatController implements Initializable {
         if (newowner) {
             try {
                 //insert into db
-
+                if(tf_name.getText().isEmpty()||tf_phone.getText().isEmpty()||tf_email.getText().isEmpty()||!allgood) throw new Exception();
+                
+                
                 String insertQry = "insert into Owners values( "
                         + " '" + tf_name.getText()
                         + "', '" + tf_phone.getText()
@@ -139,8 +208,9 @@ public class SellFlatController implements Initializable {
                         + ", '" + label_nid.getText()
                         + "')";
 
-                String ownerName = tf_name.getText(); //got the 3rd column of selected row -> first col = course id
+                String ownerName = tf_name.getText(); 
                 String ownerPhone = tf_phone.getText();
+   
 
                 System.out.println("owner name, phone: " + ownerName + ", " + ownerPhone);
 
@@ -189,8 +259,7 @@ public class SellFlatController implements Initializable {
                         window.setTitle("Apartments");
                         window.setScene(scr);
                         window.show();
-                    } catch (IOException ex) {
-                        Logger.getLogger(SellFlatController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception ex) {
                     }
 
                 } else {
@@ -198,7 +267,6 @@ public class SellFlatController implements Initializable {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("FAILED");
                     alert.setHeaderText("could not insert");
-                    alert.setContentText("144");
                     alert.showAndWait();
                 }
 
@@ -207,8 +275,7 @@ public class SellFlatController implements Initializable {
 
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("FAILED");
-                alert.setHeaderText("could not insert");
-                alert.setContentText("154");
+                alert.setHeaderText("Fill with proper data please");
                 alert.showAndWait();
 
             }
@@ -277,18 +344,15 @@ public class SellFlatController implements Initializable {
                     boolean succ = dbcon.insertDataToDB(mapqry);
                     if (succ) {
                         //owner change success
-                        formerOwnerFlat--;  
+                        formerOwnerFlat--;
                         if (formerOwnerFlat == 0) {
                             dbcon.insertDataToDB("update Owners set status_ = 'former' where phone = '" + formerOwnerPhone + "'");
 
                         }
                         //update owner status
-            
-                            //update
-                            dbcon.insertDataToDB("update Owners set status_ = 'present' where phone = '" + ownerPhone + "'");
-                 
 
-
+                        //update
+                        dbcon.insertDataToDB("update Owners set status_ = 'present' where phone = '" + ownerPhone + "'");
 
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("success");
@@ -304,14 +368,13 @@ public class SellFlatController implements Initializable {
                             window.setTitle("Apartments");
                             window.setScene(scr);
                             window.show();
-                        } catch (IOException ex) {
-                            Logger.getLogger(SellFlatController.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (Exception ex) {
                         }
                     } else {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("FAILED");
                         alert.setHeaderText("could not sell");
-                        alert.setContentText("---");
+
                         alert.showAndWait();
                     }
 
@@ -337,8 +400,7 @@ public class SellFlatController implements Initializable {
                             window.setTitle("Apartments");
                             window.setScene(scr);
                             window.show();
-                        } catch (IOException ex) {
-                            Logger.getLogger(SellFlatController.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (Exception ex) {
                         }
 
                     } else {
@@ -346,7 +408,6 @@ public class SellFlatController implements Initializable {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("FAILED");
                         alert.setHeaderText("sth went wrong");
-                        alert.setContentText("---");
                         alert.showAndWait();
                     }
                 }
@@ -402,8 +463,7 @@ public class SellFlatController implements Initializable {
             window.setTitle("Employee");
             window.setScene(scr);
             window.show();
-        } catch (IOException ex) {
-            Logger.getLogger(SellFlatController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
         }
     }
 
