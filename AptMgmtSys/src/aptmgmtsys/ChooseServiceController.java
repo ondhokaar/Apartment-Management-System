@@ -74,6 +74,8 @@ public class ChooseServiceController implements Initializable {
     private TableView<?> tv_emp;
     @FXML
     private MenuButton mbtn_search;
+    @FXML
+    private Button btn_back;
 
     /**
      * Initializes the controller class.
@@ -248,6 +250,22 @@ public class ChooseServiceController implements Initializable {
     @FXML
     private void OMC(MouseEvent event) {
         btn_select.setDisable(tv_emp.getSelectionModel().getSelectedItems().get(0) == null);
+    }
+
+    @FXML
+    private void onClickBtn_back(ActionEvent event) {
+        try {
+
+            Parent billing = FXMLLoader.load(getClass().getResource("Payment.fxml"));
+            Scene scr = new Scene(billing);
+            Stage window = (Stage) btn_back.getScene().getWindow();
+            window.setTitle("Apartment Mangement System : Payment");
+            window.setScene(scr);
+            window.show();
+
+        } catch (Exception ex) {
+
+        }
     }
 
 }

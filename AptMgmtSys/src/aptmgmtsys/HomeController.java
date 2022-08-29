@@ -85,7 +85,7 @@ public class HomeController implements Initializable {
             Parent root = FXMLLoader.load(getClass().getResource("Apartments.fxml"));
             Scene scr = new Scene(root);
             Stage window = (Stage) btn_billing.getScene().getWindow();
-            window.setTitle("Billing");
+            window.setTitle("Apartments");
             window.setScene(scr);
             window.show();
 
@@ -117,7 +117,7 @@ public class HomeController implements Initializable {
             Parent root = FXMLLoader.load(getClass().getResource("Fund.fxml"));
             Scene scr = new Scene(root);
             Stage window = (Stage) btn_billing.getScene().getWindow();
-            window.setTitle("Billing");
+            window.setTitle("Fund");
             window.setScene(scr);
             window.show();
 
@@ -132,7 +132,7 @@ public class HomeController implements Initializable {
             Parent root = FXMLLoader.load(getClass().getResource("Payment.fxml"));
             Scene scr = new Scene(root);
             Stage window = (Stage) btn_billing.getScene().getWindow();
-            window.setTitle("Billing");
+            window.setTitle("Payment");
             window.setScene(scr);
             window.show();
 
