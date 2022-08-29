@@ -5,12 +5,17 @@
 package aptmgmtsys;
 
 import aptmgmtsys.utils.DBConnect;
+import aptmgmtsys.utils.DocumentCreator;
 import aptmgmtsys.utils.TableLoader;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.format.TextStyle;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,6 +70,11 @@ public class EmployeeController implements Initializable {
     private Button btn_refreshF;
     @FXML
     private Button btn_AutoPay;
+    private String name;
+    private String phone;
+    private String desig;
+    private String deadline;
+    private double availableAmount;
 
     /**
      * Initializes the controller class.
@@ -153,10 +163,7 @@ public class EmployeeController implements Initializable {
             showAlert(false, "could not dismiss");
         }
 
-
     }
-
-
 
     @FXML
     private void onClickMi_empID(ActionEvent event) {
@@ -216,7 +223,138 @@ public class EmployeeController implements Initializable {
         alert.showAndWait();
     }
 
-    @FXML
-    private void onClickBtn_AutoPay(ActionEvent event) {
+    private double calcTotalServiceCost() throws SQLException {
+        double totalScost = 0;
+        ResultSet remp = dbcon.queryToDB("select sum(salary) as tt from Employees where status_ = 'present'");
+        remp.next();
+        totalScost = remp.getDouble("tt");
+        return totalScost;
     }
+
+    @FXML
+    private void onClickBtn_AutoPay(ActionEvent event) throws SQLException {
+
+        //get last pay month
+        double demand = calcTotalServiceCost();
+        if (fundAvailable(demand)) {
+
+            YearMonth lastBillYM;
+            try {
+                ResultSet lbm = dbcon.queryToDB("select lastEmpPayment as dt from DateTrack where sl = (select max(sl) from DateTrack)");
+                lbm.next();
+                String lastBill = lbm.getString("dt");
+                lastBillYM = YearMonth.from(LocalDate.parse(lastBill)).minusMonths(1);
+            } catch (Exception e) {
+                lastBillYM = YearMonth.from(LocalDate.now()).minusMonths(2);
+            }
+
+            //=====
+            YearMonth currentYM = YearMonth.from(LocalDate.now()).minusMonths(1);
+
+            while (lastBillYM.isBefore(currentYM)) {
+                //next month of last bill
+                dbcon.insertDataToDB("insert into DateTrack values('" + LocalDate.now() + "' )");
+                lastBillYM = lastBillYM.plusMonths(1);
+
+                //now bill
+                //get flat count***********************************
+//            ResultSet flatct = dbcon.queryToDB("select count(*) as ct from Flats");
+//            flatct.next();
+                //calc charge
+//            double totalService = calcTotalServiceCost();
+//            totalService /= flatct.getInt("ct");
+//            double totalOther = calcOther(lastBillYM.getYear() + "", lastBillYM.getMonth().getDisplayName(TextStyle.SHORT, Locale.US));
+//            totalOther /= flatct.getInt("ct");
+                //******************************************************************************
+                ResultSet billrs = dbcon.queryToDB("select * from Employees where status_ = 'present'");
+
+                while (billrs.next()) {
+                    //for each owner
+
+                    //SET QRY 
+                    name = billrs.getString("name");
+                    phone = billrs.getString("phone");
+                    desig = billrs.getString("designation");
+
+                    deadline = "" + LocalDate.now().plusDays(7);
+                    double salary = billrs.getDouble("salary");
+
+                    //NOW PAY
+                    //insert into Billings values(GETDATE(), '2022-9-9', 65, 'status_', '01756060071', 'shabbir')
+                    //String qry = "insert into Transactions values(getdate(), 'pay', " + salary + ", 'pending', '" + ownerphone + "', '" + ownername + "')";
+                    //***************************************************
+                    //NOW INSERT AND CHECK SUCCESS ******************************************
+                    if (pay(salary)) {
+                        showAlert(true, "Success payment to " + name + ", salary : " + salary);
+                        //then create doc
+
+                        //=====================create text file
+                        ResultSet rss = dbcon.queryToDB("select trxID from Transactions where sl = (select max(sl) from Transactions)");
+                        rss.next();
+
+                        String invname = rss.getString("trxID");
+                        String inf = "Paying Month [ " + lastBillYM + " ]\n\n";
+                        inf += String.format(" %20s  : %15s", "Employee Name", name);
+                        inf += "\n";
+                        inf += String.format(" %20s  : %15s", "Employee Phone", phone);
+                        inf += "\n";
+                        inf += String.format(" %20s  : %15s", "Salary", "" + salary);
+                        boolean invoiceCreated = DocumentCreator.createPaySlip(inf, invname + ".txt");
+
+                    } else {
+                        showAlert(false, "payment to " + name + " failed");
+                    }
+
+                }
+                //**************************************************************************
+
+            }
+            showAlert(true, "all payments are up to date");
+
+            //*************************************************
+        }
+        else {
+            showAlert(false, "fund Not available");
+        }
+    }
+
+    private boolean pay(double amountToPay) {
+        boolean succ = false;
+        availableAmount = availableAmount - amountToPay;
+        try {
+            succ = dbcon.insertDataToDB("insert into Transactions values(getdate(), 'pay', " + amountToPay + ", " + availableAmount + ")");
+        } catch (Exception e) {
+            showAlert(false, "sth went wrong during paying");
+        }
+        return succ;
+    }
+
+    private boolean fundAvailable(double demand) {
+
+        try {
+            ResultSet rss = dbcon.queryToDB("select count(*) from Transactions");
+            rss.next();
+            int totalRow = rss.getInt(1);
+            if (totalRow == 0) {
+                availableAmount = 0;
+                return availableAmount >= demand;
+            }
+
+        } catch (Exception e) {
+            showAlert(false, "sth went wrong during checking fund availibility");
+
+        }
+
+        try {
+            //trx table, get current amount
+            ResultSet rs = dbcon.queryToDB("select latestAvailableAmount from Transactions where sl = (select max(sl) from Transactions)");
+            rs.next();
+            availableAmount = rs.getDouble("latestAvailableAmount");
+            return availableAmount >= demand;
+        } catch (SQLException ex) {
+            showAlert(false, "sth went wrong during checking fund availibility");
+        }
+        return false;
+    }
+
 }

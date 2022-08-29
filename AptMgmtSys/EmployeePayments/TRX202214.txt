@@ -1,0 +1,7 @@
+Paying Month [ 2022-07 ]
+
+        Employee Name  :            adfa
+       Employee Phone  :          324756
+               Salary  :           324.0
+
+Paid on : Mon Aug 29 19:22:39 BDT 2022

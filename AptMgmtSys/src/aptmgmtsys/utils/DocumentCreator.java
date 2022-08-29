@@ -16,7 +16,36 @@ import javafx.scene.control.Label;
  * @author shabbir
  */
 public class DocumentCreator {
+    public static boolean createPaySlip(String info, String invoiceName) {
 
+        PrintWriter fw = null;
+
+        try {
+
+            fw = new PrintWriter("EmployeePayments/" + invoiceName);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(info);
+            bw.newLine();
+            
+//****************************************************************************************
+
+
+            bw.write("\nPaid on : " +     new java.util.Date() );
+            
+            
+            bw.close();
+            fw.close();
+            return true;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            fw.close();
+            return false;
+        }
+
+    }
+    
+    
     public static boolean createInvoice(String info, String deadline, int qty, double service, double other, String invoiceName) {
 
         PrintWriter fw = null;
@@ -73,4 +102,8 @@ public class DocumentCreator {
         }
 
     }
+    
+    
+    
+    
 }

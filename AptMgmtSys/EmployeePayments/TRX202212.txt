@@ -1,0 +1,7 @@
+Paying Month [ 2022-07 ]
+
+        Employee Name  :            asdf
+       Employee Phone  :             324
+               Salary  :           324.0
+
+Paid on : Mon Aug 29 19:22:02 BDT 2022

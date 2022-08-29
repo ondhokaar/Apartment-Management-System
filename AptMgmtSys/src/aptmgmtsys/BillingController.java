@@ -154,7 +154,7 @@ public class BillingController implements Initializable {
             double totalOther = calcOther(lastBillYM.getYear() + "", lastBillYM.getMonth().getDisplayName(TextStyle.SHORT, Locale.US));
             totalOther /= flatct.getInt("ct");
             //******************************************************************************
-            ResultSet billrs = dbcon.queryToDB("select  count(*) qty, name, phone from _ownerXflat  group by phone, name");
+            ResultSet billrs = dbcon.queryToDB("select  count(*) as qty, name, phone from _ownerXflat  group by phone, name");
             while (billrs.next()) {
                 //for each owner
 
