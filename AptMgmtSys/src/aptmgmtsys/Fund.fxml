@@ -3,8 +3,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -31,11 +29,6 @@
          </children>
       </Pane>
       <TextField fx:id="tf_search" layoutX="175.0" layoutY="488.0" onKeyReleased="#OKR_tf_search" prefHeight="25.0" prefWidth="193.0" />
-      <MenuButton fx:id="mbtn_search" layoutX="14.0" layoutY="488.0" mnemonicParsing="false" text="Search by">
-        <items>
-          <MenuItem mnemonicParsing="false" text="Action 1" />
-          <MenuItem mnemonicParsing="false" text="Action 2" />
-        </items>
-      </MenuButton>
+      <Label layoutX="52.0" layoutY="492.0" prefHeight="17.0" prefWidth="96.0" text="Search TrxID" />
    </children>
 </AnchorPane>

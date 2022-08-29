@@ -43,24 +43,24 @@ public class FundController implements Initializable {
     private TableView<?> tv_fund;
     @FXML
     private TextField tf_search;
-    @FXML
-    private MenuButton mbtn_search;
     private DBConnect dbcon;
+    private String dynamicSearch;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        dynamicSearch = "select * from Transactions where trxID like '";
         dbcon = new DBConnect();
         try {
             dbcon.connectToDB();
-            
+
             TableLoader.loadTable("select * from Transactions", tv_fund);
-            
-            label_availableFund.setText(""+ calcLatestFund());
-            
-            
+
+            label_availableFund.setText("" + calcLatestFund());
+
         } catch (Exception e) {
         }
     }
@@ -77,17 +77,27 @@ public class FundController implements Initializable {
             window.show();
 
         } catch (Exception ex) {
-            
+
         }
     }
 
-
-
-
-
     @FXML
     private void OKR_tf_search(KeyEvent event) {
+        String search_ = tf_search.getText();
+        String dynQry;
+        if (search_ != "") {
+            try {
+                dynQry = dynamicSearch + "%" + search_ + "%'";
+                TableLoader.loadTable(dynQry, tv_fund);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ApartmentsController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(ApartmentsController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
     }
+
     private void showAlert(boolean success, String msg) {
         Alert alert;
         if (success) {
@@ -102,7 +112,8 @@ public class FundController implements Initializable {
         alert.setContentText("---");
         alert.showAndWait();
     }
-        private double calcLatestFund() {
+
+    private double calcLatestFund() {
 
         try {
             ResultSet rss = dbcon.queryToDB("select count(*) from Transactions");

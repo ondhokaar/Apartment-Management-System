@@ -5,9 +5,9 @@ Billing for [ 2022-07 ]
        Total Flat Qty  :               1
 
 ************************************************************
-        Monthly Facility charge  :        0.0
+        Monthly Facility charge  : 1080.6666666666667
              Other added charge  :        0.0
 --------------------------------------------------------------------------
-           Total Amount Payable  :        0.0
+           Total Amount Payable  : 1080.6666666666667
 Pay on or before : 2022-09-06
-created on : Tue Aug 30 01:36:09 BDT 2022
+created on : Tue Aug 30 01:40:22 BDT 2022

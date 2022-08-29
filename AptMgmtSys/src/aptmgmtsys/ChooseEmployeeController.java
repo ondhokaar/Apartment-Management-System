@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -85,15 +86,10 @@ public class ChooseEmployeeController implements Initializable {
     private void onClickBtn_back(ActionEvent event) {
         try {
 
-            Parent billing = FXMLLoader.load(getClass().getResource("Payment.fxml"));
-            Scene scr = new Scene(billing);
-            Stage window = (Stage) btn_back.getScene().getWindow();
-            window.setTitle("Apartment Mangement System : Payment");
-            window.setScene(scr);
-            window.show();
+            ((Stage)(((Node)event.getSource()).getScene().getWindow())).close();
 
         } catch (Exception ex) {
-
+            showAlert(false,"sth went wrong during employee selection");
         }
     }
 

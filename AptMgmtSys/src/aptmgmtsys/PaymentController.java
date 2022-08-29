@@ -229,7 +229,7 @@ public class PaymentController implements Initializable {
                 sumtotal = 0;
 
             } else {
-                ResultSet rs = (ResultSet) Bundle.selected;
+                ResultSet rs =  Bundle.rs;
                 try {
                     sname = rs.getString("name");
 
@@ -264,7 +264,7 @@ public class PaymentController implements Initializable {
             tf_serviceCost.setDisable(!false);
             tf_serviceName.setDisable(!false);
             btn_addToInvoice.setDisable(true);
-            showAlert(false, "error loading choose service page :(");
+            showAlert(false, "nothing selected :(");
         }
     }
 
@@ -345,7 +345,11 @@ public class PaymentController implements Initializable {
 
     @FXML
     private void OKR_add(KeyEvent event) {
-        btn_addToInvoice.setDisable(!(tf_serviceName.getText() != null  && tf_serviceCost.getText() != null));
+                try {
+            btn_addToInvoice.setDisable(!(!(tf_serviceName.getText().trim().length() == 0) && !(Double.valueOf(tf_serviceCost.getText()) == 0)));
+        } catch (Exception exception) {
+            btn_addToInvoice.setDisable(true);
+        }
 
 
     }

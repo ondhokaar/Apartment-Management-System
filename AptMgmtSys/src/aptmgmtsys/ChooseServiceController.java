@@ -84,6 +84,7 @@ public class ChooseServiceController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         dbcon = new DBConnect();
+        Bundle.selected = null;
         try {
             dbcon.connectToDB();
 
@@ -120,29 +121,16 @@ public class ChooseServiceController implements Initializable {
             //now get data, open payment page
             //get data
             Bundle.existing = false;
-            ResultSet rss = dbcon.queryToDB("select spID from ServiceProviders where sl = (select max(sl) from ServiceProviders)");
+            ResultSet rss = dbcon.queryToDB("select * from ServiceProviders where sl = (select max(sl) from ServiceProviders)");
             rss.next();
 
-            Bundle.selected = (Object) rss;
+            Bundle.rs =  rss;
 
             //open payment page
-            gobackToPayment(event);
+            ((Stage) (((Node) event.getSource()).getScene().getWindow())).close();
 
         } catch (Exception e) {
             showAlert(false, "sth went wrong :(");
-        }
-    }
-
-    private void gobackToPayment(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("Payment.fxml"));
-            Scene scr = new Scene(root);
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.close();
-
-        } catch (Exception e) {
-
-            showAlert(false, "could not load payment page :(");
         }
     }
 
@@ -179,7 +167,7 @@ public class ChooseServiceController implements Initializable {
         pane_existing.setDisable(!true);
 
         try {
-            TableLoader.loadTable("select name, phone, spID", tv_emp);
+            TableLoader.loadTable("select name, phone, spID from ServiceProviders", tv_emp);
         } catch (Exception ex) {
             showAlert(false, "sth went wrong during loading existing service");
         }
@@ -243,8 +231,7 @@ public class ChooseServiceController implements Initializable {
     private void onClickBtn_select(ActionEvent event) {
         Bundle.selected = (Object) tv_emp.getSelectionModel().getSelectedItems().get(0);
         Bundle.existing = true;
-        gobackToPayment(event);
-
+        ((Stage) (((Node) event.getSource()).getScene().getWindow())).close();
     }
 
     @FXML
@@ -256,12 +243,7 @@ public class ChooseServiceController implements Initializable {
     private void onClickBtn_back(ActionEvent event) {
         try {
 
-            Parent billing = FXMLLoader.load(getClass().getResource("Payment.fxml"));
-            Scene scr = new Scene(billing);
-            Stage window = (Stage) btn_back.getScene().getWindow();
-            window.setTitle("Apartment Mangement System : Payment");
-            window.setScene(scr);
-            window.show();
+            ((Stage) (((Node) event.getSource()).getScene().getWindow())).close();
 
         } catch (Exception ex) {
 

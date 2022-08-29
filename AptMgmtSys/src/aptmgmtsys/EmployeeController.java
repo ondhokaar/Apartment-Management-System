@@ -34,6 +34,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.stage.Stage;
 
@@ -87,15 +88,13 @@ public class EmployeeController implements Initializable {
         try {
             dbcon.connectToDB();
 
-            TableLoader.loadTable("select name, phone, empID, designation from Employees where status_ = 'present'", tv_employee);
+            TableLoader.loadTable("select name as NAME, phone as PHONE, designation as DESIGNATION, salary as SALARY, status_ , empID from Employees where status_ = 'present'", tv_employee);
 
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(EmployeeController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(EmployeeController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            System.out.println(ex);
         }
 
-        searchQ = "select name, phone, designation from Employees where ";
+        searchQ = "select name as NAME, phone as PHONE, designation as DESIGNATION, salary as SALARY, status_, empID from Employees where ";
         dynamicSearch = searchQ + " empID like '%";
 
     }
@@ -152,15 +151,18 @@ public class EmployeeController implements Initializable {
     @FXML
     private void onClickBtn_dismiss(ActionEvent event) {
         try {
+            
             Object s = tv_employee.getSelectionModel().getSelectedItems().get(0);
-            String empID = s.toString().split(", ")[2];
-
-            boolean b = dbcon.insertDataToDB("update Employees set status_ = 'former' where empID = '" + empID + "'");
+            String empname = s.toString().split(", ")[0];
+            empname = empname.substring(1, empname.length());
+            String empphone = s.toString().split(", ")[1];
+            boolean b = dbcon.insertDataToDB("update Employees set status_ = 'former' , leavingDate = getdate() where name = '" + empname + "' and phone = '" + empphone + "'");
             showAlert(b, "done");
-            TableLoader.loadTable("select name, phone, empID, designation from Employees where status_ = 'present'", tv_employee);
+            TableLoader.loadTable("select name as NAME, phone as PHONE, designation as DESIGNATION, salary as SALARY, status_, empID from Employees where status_ = 'present'", tv_employee);
 
+            btn_dismiss.setDisable(true);
         } catch (Exception ex) {
-            showAlert(false, "could not dismiss");
+            showAlert(false, "Failed to dismiss");
         }
 
     }
@@ -183,8 +185,8 @@ public class EmployeeController implements Initializable {
     private void onClickBtn_refresh(ActionEvent event) {
 
         try {
-
-            TableLoader.loadTable("select name, phone, empID, designation from Employees where status_ = 'present'", tv_employee);
+            btn_dismiss.setDisable(true);
+            TableLoader.loadTable("select name as NAME, phone as PHONE, designation as DESIGNATION, salary as SALARY, status_, empID from Employees where status_ = 'present'", tv_employee);
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(EmployeeController.class.getName()).log(Level.SEVERE, null, ex);
@@ -197,8 +199,8 @@ public class EmployeeController implements Initializable {
     private void onClickBtn_refreshF(ActionEvent event) {
 
         try {
-
-            TableLoader.loadTable("select name, phone, empID, designation  from Employees", tv_employee);
+            btn_dismiss.setDisable(true);
+            TableLoader.loadTable("select name as NAME, phone as PHONE, designation as DESIGNATION, salary as SALARY, status_, empID  from Employees", tv_employee);
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(EmployeeController.class.getName()).log(Level.SEVERE, null, ex);
@@ -266,7 +268,7 @@ public class EmployeeController implements Initializable {
 //            double totalOther = calcOther(lastBillYM.getYear() + "", lastBillYM.getMonth().getDisplayName(TextStyle.SHORT, Locale.US));
 //            totalOther /= flatct.getInt("ct");
                 //******************************************************************************
-                ResultSet billrs = dbcon.queryToDB("select * from Employees where status_ = 'present'");
+                ResultSet billrs = dbcon.queryToDB("select name as NAME, phone as PHONE, designation as DESIGNATION, salary as SALARY, status_, empID from Employees where status_ = 'present'");
 
                 while (billrs.next()) {
                     //for each owner
@@ -312,8 +314,7 @@ public class EmployeeController implements Initializable {
             showAlert(true, "all payments are up to date");
 
             //*************************************************
-        }
-        else {
+        } else {
             showAlert(false, "fund Not available");
         }
     }
@@ -355,6 +356,13 @@ public class EmployeeController implements Initializable {
             showAlert(false, "sth went wrong during checking fund availibility");
         }
         return false;
+    }
+
+    @FXML
+    private void OMC(MouseEvent event) {
+        btn_dismiss.setDisable(!(!(tv_employee.getSelectionModel().getSelectedItems().get(0) == null)
+                && !(tv_employee.getSelectionModel().getSelectedItems().get(0).toString().contains("former"))));
+
     }
 
 }

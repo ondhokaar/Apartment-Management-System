@@ -1,0 +1,7 @@
+Paying Month [ 2022-07 ]
+
+        Employee Name  :          asdfaa
+       Employee Phone  :             234
+               Salary  :          3242.0
+
+Paid on : Tue Aug 30 01:41:09 BDT 2022
