@@ -1,0 +1,12 @@
+Customer Name	: shabbir
+Phone	: 01756060071
+Total Flat	: 1
+
+
+
+ Monthly Facility charge  : |     686.0|Monthly Facility charge : 	686.0
+Other added charge : 	162.0
+-------------------------------------------------
+Total Amount Payable :     [ 848.0 BDT ]
+Pay on or before : 2022-09-05
+created on : Mon Aug 29 14:05:10 BDT 2022
