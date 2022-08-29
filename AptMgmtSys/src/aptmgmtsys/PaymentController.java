@@ -27,6 +27,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -167,21 +168,27 @@ public class PaymentController implements Initializable {
             row = 3;
             gp.add(new Label("name: " + empname), 0, row);
             gp.add(new Label("phone: " + empphone), 0, ++row);
-            gp.add(new Label("phone: " + empdesignation), 0, ++row);
-            gp.add(new Label("Salary"), 0, ++row);
-            gp.add(new Label("" + empsalary), 1, row);
-            sumtotal = empsalary;
+            gp.add(new Label("Designation: " + empdesignation), 0, ++row);
+//            gp.add(new Label("Salary"), 0, ++row);
+//            gp.add(new Label("" + empsalary), 1, row);
+            sumtotal = 0;
             label_sumtotal.setText(String.valueOf(sumtotal));
 
             row++;
 
             label_payingto.setText("mr " + empname);
-            btn_pay.setDisable(false);
-            btn_addToInvoice.setDisable(false);
+
+            tf_serviceCost.setDisable(false);
+            tf_serviceName.setDisable(false);
             //
         } catch (IOException ex) {
+            btn_addToInvoice.setDisable(true);
+            tf_serviceCost.setDisable(!false);
+            tf_serviceName.setDisable(!false);
             showAlert(false, "error during opening choose employee page");
             label_payingto.setText("<none chosen>");
+            sumtotal = 0;
+            gp.getChildren().clear();
         }
     }
 
@@ -244,16 +251,27 @@ public class PaymentController implements Initializable {
                 } catch (SQLException ex) {
                     showAlert(false, "error during fetching selected service");
                     label_payingto.setText("<nothing selected>");
+
+                    sumtotal = 0;
+                    gp.getChildren().clear();
                 }
             }
+
+            tf_serviceCost.setDisable(false);
+            tf_serviceName.setDisable(false);
+
         } catch (IOException ex) {
+            tf_serviceCost.setDisable(!false);
+            tf_serviceName.setDisable(!false);
+            btn_addToInvoice.setDisable(true);
             showAlert(false, "error loading choose service page :(");
         }
     }
 
     @FXML
     private void onClickBtn_addToInvoice(ActionEvent event) {
-        gp.add(new Label(tf_serviceCost.getText()), 1, row);
+        try {
+                    gp.add(new Label(tf_serviceCost.getText()), 1, row);
         gp.add(new Label(tf_serviceName.getText()), 0, row++);
 
         //sum
@@ -264,6 +282,10 @@ public class PaymentController implements Initializable {
         tf_serviceName.clear();
 
         btn_pay.setDisable(false);
+        } catch (Exception e) {
+            showAlert(false, "something went wrong");
+        }
+
 
     }
 
@@ -319,5 +341,12 @@ public class PaymentController implements Initializable {
         alert.setHeaderText(msg);
         alert.setContentText("---");
         alert.showAndWait();
+    }
+
+    @FXML
+    private void OKR_add(KeyEvent event) {
+        btn_addToInvoice.setDisable(!(tf_serviceName.getText() != null  && tf_serviceCost.getText() != null));
+
+
     }
 }

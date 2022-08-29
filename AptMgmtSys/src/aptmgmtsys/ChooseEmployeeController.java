@@ -22,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
@@ -119,6 +120,11 @@ public class ChooseEmployeeController implements Initializable {
         alert.setHeaderText(msg);
         alert.setContentText("---");
         alert.showAndWait();
+    }
+
+    @FXML
+    private void OMC(MouseEvent event) {
+        btn_select.setDisable(tv_emp.getSelectionModel().getSelectedItems().get(0) == null);
     }
 
 }

@@ -4,11 +4,10 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="aptmgmtsys.ChooseEmployeeController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aptmgmtsys.ChooseEmployeeController">
    <children>
       <TableView fx:id="tv_emp" layoutX="46.0" layoutY="85.0" prefHeight="241.0" prefWidth="510.0" />
-      <Button fx:id="btn_select" layoutX="123.0" layoutY="337.0" mnemonicParsing="false" onAction="#onClickBtn_select" prefHeight="25.0" prefWidth="374.0" text="select" />
+      <Button fx:id="btn_select" disable="true" layoutX="123.0" layoutY="337.0" mnemonicParsing="false" onAction="#onClickBtn_select" onMouseClicked="#OMC" prefHeight="25.0" prefWidth="374.0" text="select" />
       <Button fx:id="btn_back" layoutX="46.0" layoutY="47.0" mnemonicParsing="false" onAction="#onClickBtn_back" text="go back" />
    </children>
 </AnchorPane>

@@ -27,6 +27,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -242,6 +243,11 @@ public class ChooseServiceController implements Initializable {
         Bundle.existing = true;
         gobackToPayment(event);
 
+    }
+
+    @FXML
+    private void OMC(MouseEvent event) {
+        btn_select.setDisable(tv_emp.getSelectionModel().getSelectedItems().get(0) == null);
     }
 
 }
