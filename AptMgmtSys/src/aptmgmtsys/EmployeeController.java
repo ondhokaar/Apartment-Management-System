@@ -49,10 +49,6 @@ public class EmployeeController implements Initializable {
     @FXML
     private Button btn_dismiss;
     @FXML
-    private Button btn_details;
-    @FXML
-    private Button btn_update;
-    @FXML
     private MenuItem mi_empID;
     @FXML
     private MenuItem mi_phone;
@@ -67,6 +63,8 @@ public class EmployeeController implements Initializable {
     private MenuButton mbtn_search;
     @FXML
     private Button btn_refreshF;
+    @FXML
+    private Button btn_AutoPay;
 
     /**
      * Initializes the controller class.
@@ -158,14 +156,7 @@ public class EmployeeController implements Initializable {
 
     }
 
-    @FXML
-    private void onClickBtn_details(ActionEvent event) {
 
-    }
-
-    @FXML
-    private void onClickBtn_update(ActionEvent event) {
-    }
 
     @FXML
     private void onClickMi_empID(ActionEvent event) {
@@ -223,5 +214,9 @@ public class EmployeeController implements Initializable {
         alert.setHeaderText(msg);
         alert.setContentText("---");
         alert.showAndWait();
+    }
+
+    @FXML
+    private void onClickBtn_AutoPay(ActionEvent event) {
     }
 }
