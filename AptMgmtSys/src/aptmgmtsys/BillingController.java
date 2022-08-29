@@ -13,6 +13,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.YearMonth;
+import java.time.format.TextStyle;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -366,63 +369,90 @@ public class BillingController implements Initializable {
 
     @FXML
     private void onClickBtn_generateBill(ActionEvent event) throws SQLException {
+        //get last billing month
+        ResultSet lbm = dbcon.queryToDB("select entryDate from Billings where sl = (select max(sl) from Billings)");
+        lbm.next();
+        String lastBill = lbm.getString("entryDate");
 
-        //get flat count***********************************
-        ResultSet flatct = dbcon.queryToDB("select count(*) as ct from Flats");
-        flatct.next();
-        //*************************************************
+        //=====
+        YearMonth lastBillYM = YearMonth.from(LocalDate.parse(lastBill));
 
-        //set bill amount ***********************************************
-        double totalService = calcTotalServiceCost();
-        totalService /= flatct.getInt("ct");
-        double totalOther = calcOther("2022", "aug");
-        totalOther/= flatct.getInt("ct");
-        //******************************************************************************
+        YearMonth currentYM = YearMonth.from(LocalDate.now()).minusMonths(1);
 
-        //get owner info & qty*****************************************
-        ResultSet billrs = dbcon.queryToDB("select  count(*) qty, name, phone from _ownerXflat  group by phone, name");
-        //************************************
-        
-        //BILLING FOR ALL OWNERS**********************************************
-        while (billrs.next()) {
-            //for each owner
+        while (lastBillYM.isBefore(currentYM)) {
+            //next month of last bill
+            lastBillYM = lastBillYM.plusMonths(1);
 
-            //SET QRY 
-            ownername = billrs.getString("name");
-            ownerphone = billrs.getString("phone");
-            flatqty = billrs.getInt("qty");
+            //now bill
+            //get flat count***********************************
+            ResultSet flatct = dbcon.queryToDB("select count(*) as ct from Flats");
+            flatct.next();
 
-            deadline = "" + LocalDate.now().plusDays(7);
-            double total = totalService * flatqty;
-            total += totalOther * flatqty;
+            //calc charge
+            double totalService = calcTotalServiceCost();
+            totalService /= flatct.getInt("ct");
+            double totalOther = calcOther(lastBillYM.getYear() + "", lastBillYM.getMonth().getDisplayName(TextStyle.SHORT, Locale.US));
+            totalOther /= flatct.getInt("ct");
+            //******************************************************************************
+            ResultSet billrs = dbcon.queryToDB("select  count(*) qty, name, phone from _ownerXflat  group by phone, name");
+            while (billrs.next()) {
+                //for each owner
 
-            //insert into Billings values(GETDATE(), '2022-9-9', 65, 'status_', '01756060071', 'shabbir')
-            String qry = "insert into Billings values(getdate(), '" + deadline + "', " + total + ", 'pending', '" + ownerphone + "', '" + ownername + "')";
-            //***************************************************
-            
-            //NOW INSERT AND CHECK SUCCESS ******************************************
-            if (dbcon.insertDataToDB(qry)) {
-                showAlert(true, "bill to " + ownername + " success");
-                //then create doc
+                //SET QRY 
+                ownername = billrs.getString("name");
+                ownerphone = billrs.getString("phone");
+                flatqty = billrs.getInt("qty");
 
-                //=====================create text file
-                ResultSet rss = dbcon.queryToDB("select billID from Billings where sl = (select max(sl) from Billings )");
-                rss.next();
+                deadline = "" + LocalDate.now().plusDays(7);
+                double total = totalService * flatqty;
+                total += totalOther * flatqty;
 
-                invname = rss.getString("billID");
-                String inf = String.format(" %20s  : %15s", "Customer Name", ownername);
-                inf += "\n";
-                inf += String.format(" %20s  : %15s", "Customer Phone", ownerphone);
-                inf += "\n";
-                inf += String.format(" %20s  : %15s", "Total Flat Qty", ""+flatqty);
-                boolean invoiceCreated = DocumentCreator.createInvoice(inf, deadline, flatqty, totalService, totalOther, invname + ".txt");
-            } else {
-                showAlert(false, "bill to " + ownername + " failed");
+                //insert into Billings values(GETDATE(), '2022-9-9', 65, 'status_', '01756060071', 'shabbir')
+                String qry = "insert into Billings values(getdate(), '" + deadline + "', " + total + ", 'pending', '" + ownerphone + "', '" + ownername + "')";
+                //***************************************************
+
+                //NOW INSERT AND CHECK SUCCESS ******************************************
+                if (dbcon.insertDataToDB(qry)) {
+                    showAlert(true, "bill to " + ownername + " success");
+                    //then create doc
+
+                    //=====================create text file
+                    ResultSet rss = dbcon.queryToDB("select billID from Billings where sl = (select max(sl) from Billings )");
+                    rss.next();
+
+                    invname = rss.getString("billID");
+                    String inf = "Billing for [ " + lastBillYM + " ]\n\n";
+                    inf += String.format(" %20s  : %15s", "Customer Name", ownername);
+                    inf += "\n";
+                    inf += String.format(" %20s  : %15s", "Customer Phone", ownerphone);
+                    inf += "\n";
+                    inf += String.format(" %20s  : %15s", "Total Flat Qty", "" + flatqty);
+                    boolean invoiceCreated = DocumentCreator.createInvoice(inf, deadline, flatqty, totalService, totalOther, invname + ".txt");
+                } else {
+                    showAlert(false, "bill to " + ownername + " failed");
+                }
+
             }
+            //**************************************************************************
 
         }
-        //**************************************************************************
+        showAlert(true, "all billings are up to date");
 
+        //*************************************************
+        //set yyyy mmm
+//        String yyyy = LocalDate.now().getYear() + "";
+//        String mmm = LocalDate.now().getMonth().getDisplayName(TextStyle.SHORT, Locale.US);
+        /**
+         * *String yyyy = LocalDate.now().getYear() + ""; String mmm =
+         * LocalDate.now().getMonth().getDisplayName(TextStyle.SHORT,
+         * Locale.US);
+         *
+         *
+         */
+        //set bill amount ***********************************************
+        //get owner info & qty*****************************************
+        //************************************
+        //BILLING FOR ALL OWNERS**********************************************
     }
 
 //    private double calcBill(ResultSet allOwner) throws SQLException {
@@ -433,7 +463,6 @@ public class BillingController implements Initializable {
 //        ResultSet rrs = dbcon.queryToDB("select count") //
 //        return t;
 //    }
-
     private double calcOther(String yyyy, String mmm) throws SQLException {
         //select sum(trxAmount) from Transactions where trxtype = 'pay' and Datepart( yyyy, entryTimeStamp) = '2022' and datename(month, entryTimeStamp) like '%Aug%'
         ResultSet s = dbcon.queryToDB("select sum(trxAmount) from Transactions where trxtype = 'pay' "

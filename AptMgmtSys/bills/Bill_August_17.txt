@@ -1,8 +1,0 @@
-phone: 01756060071				name: shabbir
---------------------------------------------------
-service				10034
-
--------------------------------------------------
-Total Amount Payable :     [ 10034.0 BDT ]
-Pay on or before : 2022-08-20
-created on : Sat Aug 27 02:01:51 BDT 2022

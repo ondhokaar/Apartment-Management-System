@@ -1,8 +1,0 @@
-phone: 01756060071				name: shabbir
---------------------------------------------------
-asdfas				23423
-
--------------------------------------------------
-Total Amount Payable :     [ 23423.0 BDT ]
-Pay on or before : null
-created on : Sat Aug 27 01:25:51 BDT 2022

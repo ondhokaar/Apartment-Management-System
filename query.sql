@@ -98,6 +98,7 @@ create table Employees(
 );
 insert into Employees values('adfa', '324', 'asdf', getdate(), 'asdf', 324, 'present', null, 'D:\Study\32\SD\project_progress-1.pdf')
 select * from Employees
+select sum(salary) from Employees where status_ = 'present';
 insert into Employees values('name', 'phone', 'mail', GETDATE(), 'designation', 123.123, 'present', null, 'docs')
 
 create table Payments(
@@ -176,13 +177,14 @@ create  table Billings(
 	
 );
 select max(entryDate) from Billings where name = 'shabbir' and phone = '01756060071s' a
-select 
-insert into Billings values(GETDATE(), '2022-9-9', 65, 'status_', '01756060071', 'shabbir')
-
+select entryDate from Billings where sl = MAX(sl)
+insert into Billings values('2022-05-10', '2022-9-9', 65, 'status_', '01756060071', 'shabbir')
+sele
 use apt2
 alter table Billings 
 add unique(sl)
 select * from Billings
+
 select @@IDENTITY from Billings
 select billID from Billings where sl = (select SCOPE_IDENTITY())
 create table _payXserv(
@@ -247,6 +249,11 @@ create table _payXemp(
 	constraint fk_empID foreign key (empID) references Employees(empID)
 );
 
-
-
+select sum(trxAmount) from Transactions where trxtype = 'pay' and Datepart( yyyy, entryTimeStamp) = '2022'
+and datename(month, entryTimeStamp) like '%aug%'
+select * from Transactions where Datepart( yyyy, entryTimeStamp) = '2022'
+and datename(month, entryTimeStamp) like '%Aug%'
 -------------------------------------------------------------------------
+use apt2
+select * from _ownerXflat
+select  count(*) ct, name, phone from _ownerXflat  group by phone, name
