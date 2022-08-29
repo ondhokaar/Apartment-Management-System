@@ -36,6 +36,11 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
+            <Button fx:id="btn_owners" layoutX="184.0" layoutY="216.0" mnemonicParsing="false" onAction="#onClickBtn_owners" prefHeight="66.0" prefWidth="90.0" text="Owners">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </Pane>
       <ImageView fitHeight="259.0" fitWidth="200.0" layoutX="315.0" layoutY="100.0" opacity="0.71" pickOnBounds="true" preserveRatio="true">

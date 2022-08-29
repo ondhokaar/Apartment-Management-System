@@ -1,13 +1,13 @@
 Billing for [ 2022-07 ]
 
-        Customer Name  :            mmmm
-       Customer Phone  :            aaaa
+        Customer Name  :         shabbir
+       Customer Phone  :     01756060071
        Total Flat Qty  :               1
 
 ************************************************************
-        Monthly Facility charge  : 457.3333333333333
+        Monthly Facility charge  :        0.0
              Other added charge  :        0.0
 --------------------------------------------------------------------------
-           Total Amount Payable  : 457.3333333333333
-Pay on or before : 2022-09-05
-created on : Mon Aug 29 18:21:39 BDT 2022
+           Total Amount Payable  :        0.0
+Pay on or before : 2022-09-06
+created on : Tue Aug 30 01:36:09 BDT 2022

@@ -41,6 +41,8 @@ public class HomeController implements Initializable {
     private Button btn_fund;
     @FXML
     private Button btn_payment;
+    @FXML
+    private Button btn_owners;
 
     /**
      * Initializes the controller class.
@@ -133,6 +135,21 @@ public class HomeController implements Initializable {
             Scene scr = new Scene(root);
             Stage window = (Stage) btn_billing.getScene().getWindow();
             window.setTitle("Payment");
+            window.setScene(scr);
+            window.show();
+
+        } catch (IOException ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    private void onClickBtn_owners(ActionEvent event) {
+                try {
+            Parent root = FXMLLoader.load(getClass().getResource("Owners.fxml"));
+            Scene scr = new Scene(root);
+            Stage window = (Stage) btn_billing.getScene().getWindow();
+            window.setTitle("All Owners");
             window.setScene(scr);
             window.show();
 

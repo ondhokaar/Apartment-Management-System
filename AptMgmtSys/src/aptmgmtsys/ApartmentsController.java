@@ -193,7 +193,7 @@ public class ApartmentsController implements Initializable {
             //del from flats
             dbcon.insertDataToDB("delete from Flats where apt_no = '" + fapt + "'");
             // now check owner status, if any ownership left using ownerid
-            if (ownedflats == 0) {
+            if (ownedflats <= 0) {
                 //update to former
                 dbcon.queryToDB("update Owners set status_ = 'former' where phone = '" + ownerPhone + "'");
             }

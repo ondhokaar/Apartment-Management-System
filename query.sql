@@ -46,11 +46,11 @@ select * from Flats
 truncate table Flats
 select COUNT(*) from Flats
 --add new flat
-insert into Flats values( GETDATE(), '2222-12-12', 'apt_no', 3, 'details', 3333003.3, 'docs' );
+insert into truncate table  Flats values( GETDATE(), '2222-12-12', 'apt_no', 3, 'details', 3333003.3, 'docs' );
 select * from _ 
 alter table Owners add primary key(sl, phone)
 create  table Owners(
-	sl int identity(1, 1),
+	sl int identity(1, 1) UNIQUE,
 	
 	ownerID as 'OWNER_' + phone + '_' + cast (sl as varchar(10)),  -- 
 	
@@ -68,8 +68,18 @@ create  table Owners(
 	constraint pk_owners primary key(phone,name)
 	
 );
-select * from Owners
 
+USE apt2  
+GO  
+ALTER TABLE _
+NOCHECK CONSTRAINT FK_PurchaseOrderHeader_Employee_EmployeeID;  
+GO
+
+
+
+select * from  truncate table Owners
+select * from  truncate table Owners
+select * from drop table _ownerXflat
 insert into Owners values('name', 'phone', 'email', GETDATE(), 'present', null, '  asd')
 insert into Owners values(  'asd', 'phone', 'd@f.com', GETDATE(), 'present', null, 'D:\Study\32\ISD LAB\PROJECT\AptMgmtSys\src\bilibili.gif')
 (name, phone, email, memberSince, status, leavingDate, nidFile) 
@@ -77,13 +87,13 @@ insert into Owners values(  'asd', 'phone', 'd@f.com', GETDATE(), 'present', nul
 -------------------------------------------   EMPLOYEE
 use apt2
 create table Employees(
-	sl int identity(1, 1),
+	sl int identity(1, 1) UNIQUE,
 	
 	empID as 'EMP_' + cast(year(joiningDate) as varchar(255)) + phone + cast(sl as varchar(11)), 
 	
 	---------------------------------------------------------
 	name varchar(255),
-	phone varchar(255),
+	phone varchar(255) UNIQUE,
 	email varchar(255),
 	joiningDate datetime,--now()
 	designation varchar(255),
@@ -136,16 +146,16 @@ select * from Transactions
 --------------------------------------SERVICE
 select * from ServiceProviders
 create table ServiceProviders(
-	sl int identity(1, 1),
+	sl int identity(1, 1) UNIQUE,
 	
 	
 	spID as 'SP_' + phone + cast(sl as varchar(10)),
 	
 	---------------------------------------------------------
 	details text,
-	phone varchar(255),
+	phone varchar(255) UNIQUE,
 	name varchar(255),
-	email varchar(255),
+	email varchar(255) UNIQUE,
 	entryTimeStamp datetime,  --getdate()
 	
 	
@@ -156,11 +166,11 @@ add unique(email)
 insert into ServiceProviders values('details', 'phone', 'name', 'email', GETDATE())
 use apt2
 create  table Billings(
-	sl int identity(1,1),
+	sl int identity(1,1) UNIQUE,
 
 	
 	
-	billID as 'Bill_' + cast(Datename( mm, entrydate  ) as varchar(255))  + '_' + cast(sl as varchar(10)),
+	billID as 'Bill_' + cast(Datename( mm, entrydate  ) as varchar(255)) + cast(year(entryDate) as varchar(5)) + '_' + cast(sl as varchar(10)),
 	
 	---------------------------------------------------------
 	entryDate date,
@@ -179,9 +189,15 @@ create  table Billings(
 select max(entryDate) from Billings where name = 'shabbir' and phone = '01756060071s' a
 select entryDate from Billings where sl = MAX(sl)
 insert into Billings values('2022-05-10', '2022-9-9', 65, 'status_', '01756060071', 'shabbir')
+delete from Billings where sl>1
+alter dr table Billings
+
+modify column  billID as 'Bill_' + cast(Datename( mm, entryDate  ) as varchar(255)) + cast(year(entryDate) as varchar(255)) + '_' + cast(sl as varchar(10))
+delete drop table Billings
+
 sele
 use apt2
-alter table Billings 
+truncate table Billings 
 add unique(sl)
 select * from Billings
 
@@ -237,7 +253,7 @@ create  table _ownerXflat(
 	constraint fk_ownerID foreign key (phone, name) references Owners(phone, name),
 	constraint fk_flatID foreign key (completionDate, apt_no) references Flats(completionDate, apt_no)
 );
-select * from Owners
+select * from truncate table Owners
 create table _payXemp(
 	payID varchar(255),
 	empID varchar(255),
@@ -257,3 +273,11 @@ and datename(month, entryTimeStamp) like '%Aug%'
 use apt2
 select * from _ownerXflat
 select  count(*) ct, name, phone from _ownerXflat  group by phone, name
+
+create table	DateTrack (sl int identity(1, 1) unique, lastEmpPayment date);
+drop table DateTrack
+Modify column lastEmpPayment varchar(255)
+select * from 
+
+ truncate table DateTrack
+use apt2
