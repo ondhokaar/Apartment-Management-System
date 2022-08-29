@@ -48,6 +48,7 @@ select COUNT(*) from Flats
 --add new flat
 insert into Flats values( GETDATE(), '2222-12-12', 'apt_no', 3, 'details', 3333003.3, 'docs' );
 select * from _ 
+alter table Owners add primary key(sl, phone)
 create  table Owners(
 	sl int identity(1, 1),
 	
@@ -72,6 +73,9 @@ select * from Owners
 insert into Owners values('name', 'phone', 'email', GETDATE(), 'present', null, '  asd')
 insert into Owners values(  'asd', 'phone', 'd@f.com', GETDATE(), 'present', null, 'D:\Study\32\ISD LAB\PROJECT\AptMgmtSys\src\bilibili.gif')
 (name, phone, email, memberSince, status, leavingDate, nidFile) 
+
+-------------------------------------------   EMPLOYEE
+use apt2
 create table Employees(
 	sl int identity(1, 1),
 	
@@ -92,6 +96,7 @@ create table Employees(
 	
 	constraint pk_emp primary key(phone, name)
 );
+insert into Employees values('adfa', '324', 'asdf', getdate(), 'asdf', 324, 'present', null, 'D:\Study\32\SD\project_progress-1.pdf')
 select * from Employees
 insert into Employees values('name', 'phone', 'mail', GETDATE(), 'designation', 123.123, 'present', null, 'docs')
 
@@ -101,13 +106,15 @@ create table Payments(
 	
 	payID as 'PAY_' + cast(sl as varchar(11)),	-- concat meaningful sth instead
 	---------------------------------------------------------
-	amount decimal(20,4) not null
+	amount decimal(20,4) not null,
+	
+	constraint fk_payment foreign key(entryTimeStamp)
 	
 	
 );
-
+use apt2
 create  table Transactions(
-	sl int identity(1, 1),
+	sl int identity(1, 1) unique,
 
 	
 	trxID as 'TRX' + cast(year(entryTimeStamp) as varchar(255)) + cast(sl as varchar(10)),  -- concat date/time/... instead
@@ -115,16 +122,18 @@ create  table Transactions(
 	---------------------------------------------------------
 	entryTimeStamp datetime not null,
 	trxtype varchar(255), --bill/pay
+	trxAmount decimal(20, 4) not null,
 	latestAvailableAmount decimal(30,4),
 	
 	constraint pk_trx primary key(sl,entryTimeStamp)
 	
 );
 
-insert into Transactions values(GETDATE(), 'pay', 123445.32 )
+insert into Transactions values(GETDATE(), 'pay', 123445.32, calc )
 select * from Transactions
 
-
+--------------------------------------SERVICE
+select * from ServiceProviders
 create table ServiceProviders(
 	sl int identity(1, 1),
 	
@@ -141,6 +150,8 @@ create table ServiceProviders(
 	
 	constraint pk_sp primary key(name, phone)
 );
+alter table ServiceProviders
+add unique(email)
 insert into ServiceProviders values('details', 'phone', 'name', 'email', GETDATE())
 use apt2
 create  table Billings(
@@ -164,7 +175,8 @@ create  table Billings(
 	constraint fk_billings foreign key(phone, name) references Owners(phone, name)
 	
 );
-
+select max(entryDate) from Billings where name = 'shabbir' and phone = '01756060071s' a
+select 
 insert into Billings values(GETDATE(), '2022-9-9', 65, 'status_', '01756060071', 'shabbir')
 
 use apt2

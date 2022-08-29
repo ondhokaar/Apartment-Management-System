@@ -12,6 +12,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -89,6 +90,8 @@ public class BillingController implements Initializable {
     private DatePicker dp_billFrom;
     @FXML
     private DatePicker dp_billTo;
+    @FXML
+    private Button btn_generateBill;
 
     /**
      * Initializes the controller class.
@@ -97,8 +100,8 @@ public class BillingController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         dbcon = new DBConnect();
 
-        btn_addToInvoice.setDisable(true);
-        btn_createpdf.setDisable(true);
+//        btn_addToInvoice.setDisable(true);
+//        btn_createpdf.setDisable(true);
         restrictDatePicker(LocalDate.of(1989, 4, 16), LocalDate.now(), dp_billFrom);
 
         restrictDatePicker(LocalDate.now(), LocalDate.MAX, dp_deadline);
@@ -209,9 +212,9 @@ public class BillingController implements Initializable {
 
         tf_amount.clear();
         tf_service.clear();
-        btn_addToInvoice.setDisable(true);
-
-        dp_deadline.setDisable(false);
+//        btn_addToInvoice.setDisable(true);
+//
+//        dp_deadline.setDisable(false);
 
     }
 
@@ -223,7 +226,7 @@ public class BillingController implements Initializable {
         gp.getChildren().clear();
         sumtotal = 0;
         label_totalbill.setText("" + sumtotal);
-        btn_createpdf.setDisable(true);
+//        btn_createpdf.setDisable(true);
 
         Parent root;
         try {
@@ -253,13 +256,39 @@ public class BillingController implements Initializable {
 
             //gp.add(new Label("==================================="), 1, row);
             row++;
-            tf_amount.setDisable(false);
-            tf_service.setDisable(false);
+//            tf_amount.setDisable(false);
+//            tf_service.setDisable(false);
+
+            ResultSet rset = dbcon.queryToDB("select memberSince from Owners where phone = '" + ownerphone + "' and name = '" + ownername + "'");
+            rset.next();
+
+            String since = rset.getString("memberSince");
+
+            try {
+                rset = dbcon.queryToDB("select max(entryDate) as latest from Billings where phone='" + ownerphone + "' and name = '" + ownername + "'");
+                rset.next();
+
+                String latest = rset.getString("latest");
+                restrictDatePicker(LocalDate.parse(latest.split(" ")[0]), LocalDate.now(), dp_billFrom);
+            
+            } catch (Exception e) {
+
+                restrictDatePicker(LocalDate.parse(since.split(" ")[0]), LocalDate.now(), dp_billFrom);
+            
+            }
+            
+            dp_billFrom.setDisable(false);
+            dp_billTo.setValue(LocalDate.now());
+
+            
+            
+            calcCostPerHead();
+
 
         } catch (Exception ex) {
-            showAlert(false, "error during selecting owner");
-            tf_amount.setDisable(!false);
-            tf_service.setDisable(!false);
+            showAlert(false, "" + ex);
+//            tf_amount.setDisable(!false);
+//            tf_service.setDisable(!false);
 
         }
     }
@@ -267,10 +296,10 @@ public class BillingController implements Initializable {
     //================================================
     @FXML
     private void onClickDp_billFrom(ActionEvent event) {
-        btn_createpdf.setDisable(!(!(sumtotal == 0) && !(dp_billFrom.getValue() == null)));
-        dp_billTo.setDisable(dp_billFrom.getValue() == null);
-        dp_deadline.setDisable(dp_billFrom.getValue() == null);
-        dp_deadline.setDisable(dp_billTo.getValue() == null);
+//        btn_createpdf.setDisable(!(!(sumtotal == 0) && !(dp_billFrom.getValue() == null)));
+//        dp_billTo.setDisable(dp_billFrom.getValue() == null);
+//        dp_deadline.setDisable(dp_billFrom.getValue() == null);
+//        dp_deadline.setDisable(dp_billTo.getValue() == null);
 
         if (!dp_billTo.isDisable()) {
             restrictDatePicker(dp_billFrom.getValue(), LocalDate.now(), dp_billTo);
@@ -279,28 +308,27 @@ public class BillingController implements Initializable {
 
     @FXML
     private void onClickDp_billTo(ActionEvent event) {
-
-        btn_createpdf.setDisable(!(!(sumtotal == 0) && !(dp_billTo.getValue() == null)));
-        btn_owner.setDisable(dp_billTo.getValue() == null);
-        dp_deadline.setDisable(dp_billTo.getValue() == null);
+//
+//        btn_createpdf.setDisable(!(!(sumtotal == 0) && !(dp_billTo.getValue() == null)));
+//        btn_owner.setDisable(dp_billTo.getValue() == null);
+//        dp_deadline.setDisable(dp_billTo.getValue() == null);
 
     }
 
     @FXML
     private void onClickDp_deadline(ActionEvent event) {
 
-        btn_createpdf.setDisable(dp_deadline.getValue() == null);
+//        btn_createpdf.setDisable(dp_deadline.getValue() == null);
     }
 
     @FXML
     private void OKR_tfAdditionals(KeyEvent event) {
 
-        try {
-            btn_addToInvoice.setDisable(!(!(tf_service.getText().trim().length() == 0) && !(Double.valueOf(tf_amount.getText()) == 0)));
-        } catch (Exception exception) {
-            btn_addToInvoice.setDisable(true);
-        }
-
+//        try {
+//            btn_addToInvoice.setDisable(!(!(tf_service.getText().trim().length() == 0) && !(Double.valueOf(tf_amount.getText()) == 0)));
+//        } catch (Exception exception) {
+//            btn_addToInvoice.setDisable(true);
+//        }
     }
 
     private void showAlert(boolean success, String msg) {
@@ -331,6 +359,45 @@ public class BillingController implements Initializable {
             }
         });
 
+    }
+    
+    void calcCostPerHead() {
+        sumtotal = 0;
+        //add label to grid
+    }
+
+    @FXML
+    private void onClickBtn_generateBill(ActionEvent event) throws SQLException {
+        
+        //for all owner
+        ResultSet allOwner = dbcon.queryToDB("select * from Owners where stutus_ = 'present'");
+        
+        while(allOwner.next()) {
+            //for each owner
+            
+            //get owner info
+            ownername = allOwner.getString("name");
+            ownerphone = allOwner.getString("phone");
+            
+            //calculate cost
+            sumtotal = calcBill(allOwner);
+            deadline = ""+LocalDate.now().plusDays(7);
+            //query
+        
+        
+        
+        }
+        
+        
+        
+        
+    }
+    
+    private double calcBill(ResultSet allOwner) {
+        
+        
+        
+        return 0 ;
     }
 
 }

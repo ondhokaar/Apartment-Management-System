@@ -18,21 +18,33 @@
    <children>
       <AnchorPane layoutX="14.0" layoutY="33.0" minHeight="0.0" minWidth="0.0" prefHeight="246.0" prefWidth="539.0">
          <children>
-            <TextField fx:id="tf_service" disable="true" layoutX="108.0" layoutY="109.0" onKeyReleased="#OKR_tfAdditionals" />
-            <TextField fx:id="tf_amount" disable="true" layoutX="108.0" layoutY="151.0" onKeyReleased="#OKR_tfAdditionals" />
+            <TextField fx:id="tf_service" layoutX="108.0" layoutY="109.0" onKeyReleased="#OKR_tfAdditionals" />
+            <TextField fx:id="tf_amount" layoutX="108.0" layoutY="151.0" onKeyReleased="#OKR_tfAdditionals" />
             <Label layoutX="14.0" layoutY="109.0" prefHeight="25.0" prefWidth="83.0" text="Service/Reason" />
             <Label layoutX="14.0" layoutY="151.0" prefHeight="25.0" prefWidth="56.0" text="Amount" />
             <DatePicker fx:id="dp_billFrom" layoutX="79.0" layoutY="14.0" onAction="#onClickDp_billFrom" />
             <Label layoutX="17.0" layoutY="14.0" prefHeight="25.0" prefWidth="50.0" text="Bill From" />
-            <DatePicker fx:id="dp_billTo" disable="true" layoutX="340.0" layoutY="14.0" onAction="#onClickDp_billTo" />
+            <DatePicker fx:id="dp_billTo" layoutX="340.0" layoutY="14.0" onAction="#onClickDp_billTo">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></DatePicker>
             <Label layoutX="278.0" layoutY="14.0" prefHeight="25.0" prefWidth="50.0" text="Bill to" />
-            <Button fx:id="btn_addToInvoice" disable="true" layoutX="14.0" layoutY="190.0" mnemonicParsing="false" onAction="#onClickBtn_addToInvoice" prefHeight="25.0" prefWidth="275.0" text="Add to invoice" />
-            <Button fx:id="btn_owner" disable="true" layoutX="17.0" layoutY="54.0" mnemonicParsing="false" onAction="#onClickBtn_owner" prefHeight="25.0" prefWidth="275.0" text="Choose owner to bill" />
+            <Button fx:id="btn_addToInvoice" layoutX="14.0" layoutY="190.0" mnemonicParsing="false" onAction="#onClickBtn_addToInvoice" prefHeight="25.0" prefWidth="275.0" text="Add to invoice">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Button fx:id="btn_owner" layoutX="17.0" layoutY="54.0" mnemonicParsing="false" onAction="#onClickBtn_owner" prefHeight="25.0" prefWidth="275.0" text="Choose owner to bill">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
          </children>
       </AnchorPane>
       <Button fx:id="btn_billStatus" layoutX="22.0" layoutY="406.0" mnemonicParsing="false" onAction="#onClickBtn_billStatus" prefHeight="25.0" prefWidth="275.0" text="bill status" />
       <Label layoutX="263.0" layoutY="19.0" prefHeight="17.0" prefWidth="106.0" text="Create Bill" />
-      <DatePicker fx:id="dp_deadline" disable="true" layoutX="121.0" layoutY="298.0" onAction="#onClickDp_deadline" prefHeight="25.0" prefWidth="157.0" />
+      <DatePicker fx:id="dp_deadline" layoutX="121.0" layoutY="298.0" onAction="#onClickDp_deadline" prefHeight="25.0" prefWidth="157.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></DatePicker>
       <Label layoutX="31.0" layoutY="298.0" prefHeight="25.0" prefWidth="56.0" text="Deadline" />
       <ScrollPane fx:id="sp" fitToWidth="true" hmax="100.0" layoutX="319.0" layoutY="75.0" pannable="true" prefHeight="268.0" prefWidth="263.0" vbarPolicy="ALWAYS" vmax="100.0">
          <content>
@@ -77,6 +89,10 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btn_createpdf" disable="true" layoutX="480.0" layoutY="406.0" mnemonicParsing="false" onAction="#onClickBtn_createpdf" text="Create Invoice" />
+      <Button fx:id="btn_createpdf" layoutX="480.0" layoutY="406.0" mnemonicParsing="false" onAction="#onClickBtn_createpdf" text="Create Invoice">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="btn_generateBill" layoutX="59.0" layoutY="365.0" mnemonicParsing="false" onAction="#onClickBtn_generateBill" stylesheets="@ButtonStyle.css" text="Generate Bill For month of --" />
    </children>
 </AnchorPane>
