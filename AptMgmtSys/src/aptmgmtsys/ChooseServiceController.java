@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,12 +26,19 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
+import javafx.util.converter.DefaultStringConverter;
+import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.NumberStringConverter;
 
 /**
  * FXML Controller class
@@ -76,6 +85,14 @@ public class ChooseServiceController implements Initializable {
     private MenuButton mbtn_search;
     @FXML
     private Button btn_back;
+    @FXML
+    private MenuItem mi_name;
+    @FXML
+    private MenuItem mi_phone;
+    private String qry;
+    private String dynQry;
+    @FXML
+    private TextField tf_search;
 
     /**
      * Initializes the controller class.
@@ -83,6 +100,66 @@ public class ChooseServiceController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        final Pattern mailPattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+        final Pattern phonePattern = Pattern.compile("^\\\\d{10}$");
+        final Pattern namePattern = Pattern.compile("^[A-Za-z\\s]+$");
+
+        tf_name.setTextFormatter(new TextFormatter<>(new DefaultStringConverter(), "", change -> {
+            final Matcher matcher = namePattern.matcher(change.getControlNewText());
+            return (matcher.matches() || matcher.hitEnd()) ? change : null;
+        }));
+
+        tf_email.setTextFormatter(new TextFormatter<>(new DefaultStringConverter(), "", change -> {
+            final Matcher matcher = mailPattern.matcher(change.getControlNewText());
+            return (matcher.matches() || matcher.hitEnd()) ? change : null;
+        }));
+        tf_phone.setTextFormatter(new TextFormatter<>(new IntegerStringConverter(), 1, change -> {
+            final Matcher matcher = phonePattern.matcher(change.getControlNewText());
+            return (matcher.matches() || matcher.hitEnd()) ? change : null;
+        }));
+        //*********************
+        tf_email.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { //when focus lost
+                if (!tf_email.getText().matches(mailPattern.toString())) {
+                    //when it not matches the pattern (1.0 - 6.0)
+                    //set the textField empty
+                    tf_email.setText("");
+                    tf_email.setStyle("-fx-border-color:red;");
+                } else {
+                    tf_email.setStyle("-fx-border-color:green;");
+                }
+            }
+
+        });
+        tf_name.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { //when focus lost
+                if (!tf_name.getText().matches(namePattern.toString())) {
+                    //when it not matches the pattern (1.0 - 6.0)
+                    //set the textField empty
+                    tf_name.setText("");
+                    tf_name.setStyle("-fx-border-color:red;");
+                } else {
+                    tf_name.setStyle("-fx-border-color:green;");
+                }
+            }
+
+        });
+
+        tf_phone.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { //when focus lost
+                if (!tf_phone.getText().matches(phonePattern.toString())) {
+                    //when it not matches the pattern (1.0 - 6.0)
+                    //set the textField empty
+                    tf_phone.setText("");
+                    tf_phone.setStyle("-fx-border-color:red;");
+                } else {
+                    tf_phone.setStyle("-fx-border-color:green;");
+                }
+            }
+
+        });
+
+        //==============
         dbcon = new DBConnect();
         Bundle.selected = null;
         try {
@@ -91,11 +168,13 @@ public class ChooseServiceController implements Initializable {
         } catch (Exception e) {
         }
         try {
-            TableLoader.loadTable("select name, phone, spID from ServiceProviders", tv_emp);
+            TableLoader.loadTable("select * from ServiceProviders", tv_emp);
         } catch (Exception ex) {
             showAlert(false, "sth went wrong during loading existing service");
         }
         dupQry = "select count(*) from ServiceProviders where ";
+        qry = "select * from ServiceProviders where ";
+        dynQry = qry + " phone like '%";
     }
 
     @FXML
@@ -103,7 +182,7 @@ public class ChooseServiceController implements Initializable {
         try {
             //take inputs, run query
             String name = tf_name.getText(), email = tf_email.getText(), phone = tf_phone.getText(), details = tf_details.getText();
-
+            if(name.isEmpty() || email.isEmpty() || phone.isEmpty() || details.isEmpty()) throw new Exception();
             String qry = "insert into ServiceProviders values('"
                     + details
                     + "', '" + phone
@@ -124,13 +203,13 @@ public class ChooseServiceController implements Initializable {
             ResultSet rss = dbcon.queryToDB("select * from ServiceProviders where sl = (select max(sl) from ServiceProviders)");
             rss.next();
 
-            Bundle.rs =  rss;
+            Bundle.rs = rss;
 
             //open payment page
             ((Stage) (((Node) event.getSource()).getScene().getWindow())).close();
 
         } catch (Exception e) {
-            showAlert(false, "sth went wrong :(");
+            showAlert(false, "Please let me know everything :(");
         }
     }
 
@@ -145,7 +224,7 @@ public class ChooseServiceController implements Initializable {
         }
 
         alert.setHeaderText(msg);
-        alert.setContentText("---");
+        alert.setContentText("");
         alert.showAndWait();
     }
 
@@ -248,6 +327,31 @@ public class ChooseServiceController implements Initializable {
         } catch (Exception ex) {
 
         }
+    }
+
+    @FXML
+    private void OKR_search(KeyEvent event) {
+        String search_ = tf_search.getText();
+        String dynamic;
+        if (search_ != "") {
+            try {
+                dynamic = dynQry + "" + search_ + "%'";
+                TableLoader.loadTable(dynamic, tv_emp);
+            } catch (Exception ex) {
+                showAlert(false, "error during search");
+            }
+        }
+    }
+
+    @FXML
+    private void onActionMi_name(ActionEvent event) {
+        dynQry = qry + " name like '%";
+
+    }
+
+    @FXML
+    private void onActionMi_phone(ActionEvent event) {
+        dynQry = qry + " phone like '%";
     }
 
 }

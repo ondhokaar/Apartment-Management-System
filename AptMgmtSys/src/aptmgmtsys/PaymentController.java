@@ -209,12 +209,11 @@ public class PaymentController implements Initializable {
 
             //get service
             if (Bundle.existing) {
-                sname = Bundle.selected.toString().split(", ")[0];
-                sname = sname.substring(1, sname.length());
-                sphone = Bundle.selected.toString().split(", ")[1];
+                sname = Bundle.selected.toString().split(", ")[4];
 
-                spid = Bundle.selected.toString().split(", ")[2];
-                spid = spid.substring(0, spid.length() - 1);
+                sphone = Bundle.selected.toString().split(", ")[3];
+
+                spid = Bundle.selected.toString().split(", ")[1];
 
                 //set service on invoice
                 row = 3;

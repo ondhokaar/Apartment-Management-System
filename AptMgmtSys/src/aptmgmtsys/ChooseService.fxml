@@ -15,13 +15,13 @@
       <Pane fx:id="pane_existing" layoutX="14.0" layoutY="70.0" prefHeight="308.0" prefWidth="567.0">
          <children>
             <TableView fx:id="tv_emp" layoutX="28.0" layoutY="30.0" onMouseClicked="#OMC" prefHeight="200.0" prefWidth="514.0" />
-            <MenuButton fx:id="mbtn_search" layoutX="188.0" layoutY="243.0" mnemonicParsing="false" text="Search by phone">
+            <MenuButton fx:id="mbtn_search" layoutX="188.0" layoutY="243.0" mnemonicParsing="false" text="Search by Phone">
               <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-                <MenuItem mnemonicParsing="false" text="Action 2" />
+                <MenuItem fx:id="mi_name" mnemonicParsing="false" onAction="#onActionMi_name" text="Name" />
+                <MenuItem fx:id="mi_phone" mnemonicParsing="false" onAction="#onActionMi_phone" text="Phone" />
               </items>
             </MenuButton>
-            <TextField layoutX="326.0" layoutY="243.0" prefHeight="25.0" prefWidth="216.0" />
+            <TextField fx:id="tf_search" layoutX="326.0" layoutY="243.0" onKeyReleased="#OKR_search" prefHeight="25.0" prefWidth="216.0" />
             <Button fx:id="btn_select" disable="true" layoutX="421.0" layoutY="282.0" mnemonicParsing="false" onAction="#onClickBtn_select" prefHeight="25.0" prefWidth="121.0" text="select" />
             <Button fx:id="btn_back" layoutX="284.0" layoutY="282.0" mnemonicParsing="false" onAction="#onClickBtn_back" prefHeight="25.0" prefWidth="121.0" text="back" />
             <Button fx:id="btn_gotoAddNew" layoutX="28.0" layoutY="243.0" mnemonicParsing="false" onAction="#onClickBtn_gotoAddNew" prefHeight="25.0" prefWidth="121.0" text="+ Add New Service" />
