@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aptmgmtsys.OwnersController">
    <children>
-      <TableView fx:id="tv_owner" layoutX="76.0" layoutY="80.0" prefHeight="241.0" prefWidth="510.0" />
-      <Button fx:id="btn_back" layoutX="36.0" layoutY="37.0" mnemonicParsing="false" onAction="#onClickBtn_back" text="go back" />
+      <TableView fx:id="tv_owner" layoutX="53.0" layoutY="80.0" prefHeight="241.0" prefWidth="510.0" />
+      <Button fx:id="btn_back" layoutX="504.0" layoutY="346.0" mnemonicParsing="false" onAction="#onClickBtn_back" text="go back" />
+      <Label layoutX="286.0" layoutY="29.0" text="Owners ">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

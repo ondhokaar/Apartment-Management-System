@@ -1,7 +1,0 @@
-Paying Month [ 2022-07 ]
-
-        Employee Name  :           kfjhj
-       Employee Phone  :              76
-               Salary  :            76.0
-
-Paid on : Mon Aug 29 19:22:47 BDT 2022

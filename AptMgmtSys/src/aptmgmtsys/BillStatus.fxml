@@ -4,12 +4,19 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aptmgmtsys.BillStatusController">
    <children>
-      <Label layoutX="274.0" layoutY="35.0" text="Bill Status" />
-      <Button fx:id="btn_back" layoutX="507.0" layoutY="361.0" mnemonicParsing="false" onAction="#onClickBtn_back" text="back" />
+      <Label layoutX="267.0" layoutY="22.0" text="Bill Status">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font></Label>
+      <Button fx:id="btn_back" layoutX="507.0" layoutY="361.0" mnemonicParsing="false" onAction="#onClickBtn_back" prefHeight="25.0" prefWidth="61.0" text="Back" />
       <TableView fx:id="tv_bills" layoutX="156.0" layoutY="66.0" onMouseClicked="#OMC_tv_bills" prefHeight="234.0" prefWidth="600.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="66.0" />
-      <Button fx:id="btn_paid" disable="true" layoutX="109.0" layoutY="318.0" mnemonicParsing="false" onAction="#onClickBtn_paid" prefHeight="25.0" prefWidth="410.0" text="Paid" />
+      <Button fx:id="btn_paid" disable="true" layoutX="34.0" layoutY="318.0" mnemonicParsing="false" onAction="#onClickBtn_paid" prefHeight="25.0" prefWidth="535.0" text="P A I D">
+         <font>
+            <Font size="13.0" />
+         </font></Button>
    </children>
 </AnchorPane>

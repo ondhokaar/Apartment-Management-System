@@ -2,51 +2,104 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aptmgmtsys.HomeController">
    <children>
       <Pane layoutX="22.0" layoutY="33.0" prefHeight="341.0" prefWidth="352.0">
          <children>
-            <Button fx:id="btn_billing" layoutX="184.0" layoutY="58.0" mnemonicParsing="false" onAction="#onClickBtn_billing" prefHeight="66.0" prefWidth="90.0" text="Billing">
+            <Button fx:id="btn_billing" alignment="BOTTOM_CENTER" layoutX="165.0" layoutY="25.0" mnemonicParsing="false" onAction="#onClickBtn_billing" prefHeight="105.0" prefWidth="109.0" text="Billing">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
             </Button>
-            <Button fx:id="btn_employee" layoutX="184.0" layoutY="138.0" mnemonicParsing="false" onAction="#onClickBtn_employee" prefHeight="66.0" prefWidth="90.0" text="Employee">
+            <Button fx:id="btn_employee" alignment="BOTTOM_CENTER" layoutX="165.0" layoutY="134.0" mnemonicParsing="false" onAction="#onClickBtn_employee" prefHeight="92.0" prefWidth="109.0" text="Employee">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
             </Button>
-            <Button fx:id="btn_fund" layoutX="61.0" layoutY="138.0" mnemonicParsing="false" onAction="#onClickBtn_fund" prefHeight="66.0" prefWidth="90.0" text="Fund">
+            <Button fx:id="btn_apt" alignment="BOTTOM_CENTER" layoutX="41.0" layoutY="25.0" mnemonicParsing="false" onAction="#onClickBtn_apt" prefHeight="105.0" prefWidth="109.0" text="Apartments" textAlignment="CENTER">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
             </Button>
-            <Button fx:id="btn_apt" layoutX="61.0" layoutY="58.0" mnemonicParsing="false" onAction="#onClickBtn_apt" prefHeight="66.0" prefWidth="90.0" text="Apartments">
+            <Button fx:id="btn_payment" alignment="BOTTOM_CENTER" layoutX="40.0" layoutY="231.0" mnemonicParsing="false" onAction="#onClickBtn_payment" prefHeight="80.0" prefWidth="109.0" text="Payment">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
             </Button>
-            <Button fx:id="btn_payment" layoutX="61.0" layoutY="216.0" mnemonicParsing="false" onAction="#onClickBtn_payment" prefHeight="66.0" prefWidth="90.0" text="Payment">
+            <Button fx:id="btn_owners" alignment="BOTTOM_CENTER" layoutX="165.0" layoutY="231.0" mnemonicParsing="false" onAction="#onClickBtn_owners" prefHeight="80.0" prefWidth="109.0" text="Owners">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
             </Button>
-            <Button fx:id="btn_owners" layoutX="184.0" layoutY="216.0" mnemonicParsing="false" onAction="#onClickBtn_owners" prefHeight="66.0" prefWidth="90.0" text="Owners">
+            <ImageView disable="true" fitHeight="80.0" fitWidth="97.0" layoutX="54.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../apt.gif" />
+               </image>
+            </ImageView>
+            <ImageView disable="true" fitHeight="80.0" fitWidth="80.0" layoutX="180.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../billing.gif" />
+               </image>
+            </ImageView>
+            <Button fx:id="btn_fund" alignment="BOTTOM_CENTER" layoutX="40.0" layoutY="134.0" mnemonicParsing="false" onAction="#onClickBtn_fund" prefHeight="92.0" prefWidth="109.0" text="Fund">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
             </Button>
+            <ImageView disable="true" fitHeight="80.0" fitWidth="80.0" layoutX="56.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../fund.gif" />
+               </image>
+            </ImageView>
+            <ImageView disable="true" fitHeight="66.0" fitWidth="90.0" layoutX="175.0" layoutY="138.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../emp.jpg" />
+               </image>
+            </ImageView>
+            <ImageView disable="true" fitHeight="39.0" fitWidth="42.0" layoutX="197.0" layoutY="240.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../owner.png" />
+               </image></ImageView>
+            <ImageView disable="true" fitHeight="51.0" fitWidth="56.0" layoutX="68.0" layoutY="237.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../payment.gif" />
+               </image></ImageView>
          </children>
       </Pane>
-      <ImageView fitHeight="259.0" fitWidth="200.0" layoutX="315.0" layoutY="100.0" opacity="0.71" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="259.0" fitWidth="200.0" layoutX="332.0" layoutY="56.0" opacity="0.71" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../icon.png" />
          </image>
       </ImageView>
+      <Label layoutX="300.0" layoutY="268.0" text="Apartment Management System">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

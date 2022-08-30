@@ -65,7 +65,6 @@ public class ApartmentsController implements Initializable {
     private Button btn_remove;
     @FXML
     private Button btn_sell;
-    @FXML
     private Button btn_viewDetails;
 
     @Override

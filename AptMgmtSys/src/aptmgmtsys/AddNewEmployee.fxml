@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aptmgmtsys.AddNewEmployeeController">
    <children>
@@ -16,17 +17,35 @@
             <TextField fx:id="tf_mail" layoutX="118.0" layoutY="111.0" />
             <TextField fx:id="tf_designation" layoutX="118.0" layoutY="146.0" />
             <TextField fx:id="tf_salary" layoutX="120.0" layoutY="183.0" />
-            <Label layoutX="29.0" layoutY="37.0" prefHeight="25.0" prefWidth="41.0" text="Name" />
-            <Label layoutX="29.0" layoutY="72.0" prefHeight="25.0" prefWidth="41.0" text="Phone" />
-            <Label layoutX="29.0" layoutY="111.0" prefHeight="25.0" prefWidth="41.0" text="Email" />
-            <Label layoutX="29.0" layoutY="146.0" prefHeight="25.0" prefWidth="82.0" text="Designation" />
-            <Label layoutX="29.0" layoutY="183.0" prefHeight="25.0" prefWidth="41.0" text="Salary" />
+            <Label layoutX="29.0" layoutY="37.0" prefHeight="25.0" prefWidth="41.0" text="Name">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font></Label>
+            <Label layoutX="29.0" layoutY="72.0" prefHeight="25.0" prefWidth="41.0" text="Phone">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font></Label>
+            <Label layoutX="29.0" layoutY="111.0" prefHeight="25.0" prefWidth="41.0" text="Email">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font></Label>
+            <Label layoutX="29.0" layoutY="146.0" prefHeight="25.0" prefWidth="82.0" text="Designation">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font></Label>
+            <Label layoutX="29.0" layoutY="183.0" prefHeight="25.0" prefWidth="41.0" text="Salary">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font></Label>
             <Label fx:id="label_docs" layoutX="29.0" layoutY="238.0" prefHeight="17.0" prefWidth="238.0" text="&lt;no file chosen&gt;" />
          </children>
       </Pane>
-      <Pane layoutX="218.0" layoutY="5.0" prefHeight="91.0" prefWidth="200.0">
+      <Pane layoutX="144.0" layoutY="-1.0" prefHeight="91.0" prefWidth="313.0">
          <children>
-            <Label layoutX="27.0" layoutY="37.0" text="New Employee Registration" />
+            <Label layoutX="26.0" layoutY="22.0" text="New Employee Registration">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font></Label>
          </children>
       </Pane>
       <Button fx:id="btn_proceed" layoutX="495.0" layoutY="359.0" mnemonicParsing="false" onAction="#onClickBtn_proceed" text="Proceed">
@@ -39,7 +58,9 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label layoutX="389.0" layoutY="93.0" prefHeight="25.0" prefWidth="137.0" text="Date &amp; time" />
-      <Button fx:id="btn_addDocs" layoutX="338.0" layoutY="328.0" mnemonicParsing="false" onAction="#onClickBtn_addDocs" text="Add Docs" />
+      <Button fx:id="btn_addDocs" layoutX="338.0" layoutY="328.0" mnemonicParsing="false" onAction="#onClickBtn_addDocs" text="Add Docs">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
    </children>
 </AnchorPane>

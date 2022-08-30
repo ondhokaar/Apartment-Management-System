@@ -86,6 +86,8 @@ insert into Owners values(  'asd', 'phone', 'd@f.com', GETDATE(), 'present', nul
 
 -------------------------------------------   EMPLOYEE
 use apt2
+select * from Employees where status_ = 'present'
+update Employees set email = 'aaa', salary = '2323' where phone= '234'
 create table Employees(
 	sl int identity(1, 1) UNIQUE,
 	
@@ -281,3 +283,39 @@ select * from
 
  truncate table DateTrack
 use apt2
+
+
+create database use testdbdb
+
+create table test( i varchar(144), j varchar(244), k int, l int)
+go
+insert into test values('s', 'a4', 1, 3)
+insert into test values('s', 'a5', 1, 3)
+insert into test values('r', 'a6', 1, 3)
+insert into test values('r', 'a7', 1, 3)
+insert into test values('a', 'a8', 1, 3)
+go
+
+select i, group_concat j from test group by i
+select * from _ownerXflats
+go
+use apt2
+SELECT _ownerXflat.name, _ownerXflat.phone,  STUFF(
+(SELECT ', ' + _ownerXflat.apt_no
+FROM _ownerXflat oxf
+WHERE oxf.name = _ownerXflat.name and oxf.phone = _ownerXflat.phone
+FOR XML PATH('')) , 1, 1,' ') AS Flats_Owned
+FROM _ownerXflat
+GROUP BY _ownerXflat.name, _ownerXflat.phone
+GO
+
+SELECT _ownerXflat.name as NAME, _ownerXflat.phone as PHONE, STUFF(
+(SELECT ', ' + s.apt_no
+FROM _ownerXflat s
+WHERE s.name = _ownerXflat.name AND s.phone = _ownerXflat.phone
+FOR XML PATH('')),1,1,'') AS FLATS_OWNED
+FROM _ownerXflat 
+GROUP BY _ownerXflat.name, _ownerXflat.phone
+GO
+
+truncate table Billings

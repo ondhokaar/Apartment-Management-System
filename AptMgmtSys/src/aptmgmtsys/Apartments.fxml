@@ -9,10 +9,14 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aptmgmtsys.ApartmentsController">
    <children>
-      <Label layoutX="265.0" layoutY="25.0" text="All Apartments" />
+      <Label layoutX="246.0" layoutY="14.0" text="All Apartments">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font></Label>
       <Pane layoutX="18.0" layoutY="53.0" prefHeight="200.0" prefWidth="573.0" style="-fx-border-color: red;">
          <children>
             <TableView fx:id="tv_apartments" onMouseClicked="#OMC_tv_apt" prefHeight="200.0" prefWidth="573.0" />
@@ -34,23 +38,18 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button id="BUTTON" fx:id="btn_remove" disable="true" layoutX="163.0" layoutY="40.0" mnemonicParsing="false" onAction="#onClickbtn_remove" stylesheets="@ButtonStyle.css" text="Remove">
+            <Button id="BUTTON" fx:id="btn_remove" disable="true" layoutX="94.0" layoutY="40.0" mnemonicParsing="false" onAction="#onClickbtn_remove" stylesheets="@ButtonStyle.css" text="Remove">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button id="BUTTON" fx:id="btn_sell" disable="true" layoutX="234.0" layoutY="40.0" mnemonicParsing="false" onAction="#onClickBtn_sell" stylesheets="@ButtonStyle.css" text="Sell">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-            <Button id="BUTTON" fx:id="btn_viewDetails" disable="true" layoutX="389.0" layoutY="40.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" stylesheets="@ButtonStyle.css" text="View Details">
+            <Button id="BUTTON" fx:id="btn_sell" disable="true" layoutX="165.0" layoutY="40.0" mnemonicParsing="false" onAction="#onClickBtn_sell" stylesheets="@ButtonStyle.css" text="Sell">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
             <TextField fx:id="tf_search" layoutX="163.0" layoutY="5.0" onKeyReleased="#OKR_search" prefHeight="25.0" prefWidth="98.0" />
-            <MenuButton fx:id="mbtn_searchBy" layoutX="14.0" layoutY="5.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="142.0" text="search by ">
+            <MenuButton fx:id="mbtn_searchBy" layoutX="14.0" layoutY="5.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="142.0" text="Search by ">
               <items>
                 <MenuItem fx:id="mi_aptno" mnemonicParsing="false" onAction="#onClickMi_aptno" text="apt_no" />
                 <MenuItem fx:id="mi_flatid" mnemonicParsing="false" onAction="#onClickMi_flatid" text="FlatID" />

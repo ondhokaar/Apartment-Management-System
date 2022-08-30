@@ -10,6 +10,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aptmgmtsys.EmployeeController">
    <children>
@@ -18,12 +19,21 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label layoutX="280.0" layoutY="35.0" text="Employee" />
+      <Label layoutX="262.0" layoutY="14.0" text="Employee">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font></Label>
       <Pane layoutX="14.0" layoutY="310.0" prefHeight="84.0" prefWidth="495.0" AnchorPane.bottomAnchor="10.0">
          <children>
             <TextField fx:id="tf_search" layoutX="116.0" layoutY="6.0" onKeyReleased="#OKR_search" />
-            <Button fx:id="btn_addNew" layoutX="-9.0" layoutY="47.0" mnemonicParsing="false" onAction="#onClickBtn_addNew" prefHeight="25.0" prefWidth="109.0" text="Appoint New" />
-            <Button fx:id="btn_dismiss" disable="true" layoutX="116.0" layoutY="47.0" mnemonicParsing="false" onAction="#onClickBtn_dismiss" text="Dismiss" />
+            <Button fx:id="btn_addNew" layoutX="-9.0" layoutY="47.0" mnemonicParsing="false" onAction="#onClickBtn_addNew" prefHeight="25.0" prefWidth="109.0" text="Appoint New">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Button fx:id="btn_dismiss" disable="true" layoutX="116.0" layoutY="47.0" mnemonicParsing="false" onAction="#onClickBtn_dismiss" text="Dismiss">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
             <MenuButton fx:id="mbtn_search" layoutX="-8.0" layoutY="6.0" mnemonicParsing="false" text="Search by ID">
               <items>
                 <MenuItem fx:id="mi_empID" mnemonicParsing="false" onAction="#onClickMi_empID" text="employee id" />
@@ -32,12 +42,24 @@
                <padding>
                   <Insets right="1.0" />
                </padding>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </MenuButton>
-            <Button fx:id="btn_refreshF" layoutX="275.0" layoutY="6.0" mnemonicParsing="false" onAction="#onClickBtn_refreshF" prefWidth="151.0" text="Include Former Employee" />
-            <Button fx:id="btn_AutoPay" layoutX="227.0" layoutY="47.0" mnemonicParsing="false" onAction="#onClickBtn_AutoPay" prefHeight="25.0" prefWidth="248.0" text="Make Monthly Payment Upto Last Month" />
+            <Button fx:id="btn_refreshF" layoutX="275.0" layoutY="6.0" mnemonicParsing="false" onAction="#onClickBtn_refreshF" prefWidth="151.0" text="Include Former Employee">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Button fx:id="btn_AutoPay" layoutX="227.0" layoutY="47.0" mnemonicParsing="false" onAction="#onClickBtn_AutoPay" prefHeight="25.0" prefWidth="248.0" text="Make Monthly Payment Upto Last Month">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
          </children>
       </Pane>
       <TableView fx:id="tv_employee" layoutX="141.0" layoutY="68.0" onMouseClicked="#OMC" prefHeight="235.0" prefWidth="330.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <Button fx:id="btn_refresh" layoutX="448.0" layoutY="312.0" mnemonicParsing="false" onAction="#onClickBtn_refresh" prefHeight="25.0" prefWidth="127.0" text="Refresh" />
+      <Button fx:id="btn_refresh" layoutX="448.0" layoutY="312.0" mnemonicParsing="false" onAction="#onClickBtn_refresh" prefHeight="25.0" prefWidth="127.0" text="Refresh">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
    </children>
 </AnchorPane>
