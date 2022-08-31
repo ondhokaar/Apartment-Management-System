@@ -13,6 +13,8 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,8 +25,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.converter.DefaultStringConverter;
 
 /**
  * FXML Controller class
@@ -53,18 +57,107 @@ public class AddNewEmployeeController implements Initializable {
     private TextField tf_salary;
     private boolean docAdded;
     private DBConnect dbcon;
+    private boolean allgood;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //************************************
+        final Pattern mailPattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+        final Pattern phonePattern = Pattern.compile("^[0-9]{11}$");
+        final Pattern namePattern = Pattern.compile("^[A-Za-z\\s]+$");
+        final Pattern numPattern = Pattern.compile("^[0-9]+[.]?[0-9]+$");
+        tf_salary.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { //when focus lost
+                if (!tf_salary.getText().matches(numPattern.toString())) {
+                    //when it not matches the pattern (1.0 - 6.0)
+                    //set the textField empty
+                    tf_salary.setText("");
+                    tf_salary.setStyle("-fx-border-color:red;");
+                } else {
+                    tf_salary.setStyle("-fx-border-color:green;");
+                }
+            }
+
+        });
+        tf_name.setTextFormatter(new TextFormatter<>(new DefaultStringConverter(), "", change -> {
+            final Matcher matcher = namePattern.matcher(change.getControlNewText());
+            return (matcher.matches() || matcher.hitEnd()) ? change : null;
+        }));
+        tf_designation.setTextFormatter(new TextFormatter<>(new DefaultStringConverter(), "", change -> {
+            final Matcher matcher = namePattern.matcher(change.getControlNewText());
+            return (matcher.matches() || matcher.hitEnd()) ? change : null;
+        }));
+
+        tf_mail.setTextFormatter(new TextFormatter<>(new DefaultStringConverter(), "", change -> {
+            final Matcher matcher = mailPattern.matcher(change.getControlNewText());
+            return (matcher.matches() || matcher.hitEnd()) ? change : null;
+        }));
+
+        //*********************
+        tf_mail.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { //when focus lost
+                if (!tf_mail.getText().matches(mailPattern.toString())) {
+
+                    tf_mail.setText("");
+                    tf_mail.setStyle("-fx-border-color:red;");
+                } else {
+                    tf_mail.setStyle("-fx-border-color:green;");
+                }
+            }
+
+        });
+        tf_name.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { //when focus lost
+                if (!tf_name.getText().matches(namePattern.toString())) {
+                    //when it not matches the pattern (1.0 - 6.0)
+                    //set the textField empty
+                    tf_name.setText("");
+                    tf_name.setStyle("-fx-border-color:red;");
+                } else {
+                    tf_name.setStyle("-fx-border-color:green;");
+                }
+            }
+
+        });
+                tf_designation.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { //when focus lost
+                if (!tf_designation.getText().matches(namePattern.toString())) {
+                    //when it not matches the pattern (1.0 - 6.0)
+                    //set the textField empty
+                    tf_designation.setText("");
+                    tf_designation.setStyle("-fx-border-color:red;");
+                } else {
+                    tf_designation.setStyle("-fx-border-color:green;");
+                }
+            }
+
+        });
+
+        tf_phone.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { //when focus lost
+                if (!tf_phone.getText().matches(phonePattern.toString())) {
+                    //when it not matches the pattern (1.0 - 6.0)
+                    //set the textField empty
+                    tf_phone.setText("");
+                    tf_phone.setStyle("-fx-border-color:red;");
+                } else {
+                    tf_phone.setStyle("-fx-border-color:green;");
+
+                }
+            }
+
+        });
+
+        //***********************************
         // TODO
         docAdded = false;
         dbcon = new DBConnect();
         try {
             dbcon.connectToDB();
-            
+
         } catch (Exception e) {
         }
     }
@@ -88,8 +181,10 @@ public class AddNewEmployeeController implements Initializable {
     private void onClickBtn_proceed(ActionEvent event) {
 
         try {
-
-            if (tf_designation.getText().length() > 0 && tf_name.getText().length() > 0 && tf_phone.getText().length() > 0 && Double.valueOf(tf_salary.getText()) > 0 && docAdded) {
+            if (tf_name.getText().isEmpty() || tf_phone.getText().isEmpty() || tf_mail.getText().isEmpty() || tf_designation.getText().isEmpty() || tf_salary.getText().isEmpty() || !docAdded) {
+                throw new Exception();
+            }
+            if (Double.valueOf(tf_salary.getText()) > 0) {
 
                 String insertQry = "insert into Employees values('"
                         + tf_name.getText()
@@ -108,7 +203,6 @@ public class AddNewEmployeeController implements Initializable {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("success");
                     alert.setHeaderText("New Employee appointed");
-                    alert.setContentText("");
                     alert.showAndWait();
 
                     //take back to Employees
@@ -120,8 +214,7 @@ public class AddNewEmployeeController implements Initializable {
                         window.setTitle("Employees");
                         window.setScene(scr);
                         window.show();
-                    } catch (IOException ex) {
-                        Logger.getLogger(SellFlatController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception ex) {
                     }
 
                 } else {
@@ -129,24 +222,24 @@ public class AddNewEmployeeController implements Initializable {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("FAILED");
                     alert.setHeaderText("could not insert");
-                    alert.setContentText("---");
                     alert.showAndWait();
                 }
-
-
 
             } else {
 
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("FAILED");
                 alert.setHeaderText("INCORRECT INPUT OR EMPTY FIELD");
-                alert.setContentText("---");
+                alert.setContentText("Did you input a valid salary?");
                 alert.showAndWait();
 
             }
 
         } catch (Exception e) {
-            System.out.println(e);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("FAILED");
+            alert.setHeaderText("INCORRECT INPUT OR EMPTY FIELD");
+            alert.showAndWait();
         }
 
     }

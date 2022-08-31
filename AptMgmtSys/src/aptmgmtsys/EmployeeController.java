@@ -151,7 +151,7 @@ public class EmployeeController implements Initializable {
     @FXML
     private void onClickBtn_dismiss(ActionEvent event) {
         try {
-            
+
             Object s = tv_employee.getSelectionModel().getSelectedItems().get(0);
             String empname = s.toString().split(", ")[0];
             empname = empname.substring(1, empname.length());
@@ -237,10 +237,11 @@ public class EmployeeController implements Initializable {
     private void onClickBtn_AutoPay(ActionEvent event) throws SQLException {
 
         //get last pay month
-        double demand = calcTotalServiceCost();
-        if (fundAvailable(demand)) {
+        try {
 
             YearMonth lastBillYM;
+            YearMonth currentYM = YearMonth.from(LocalDate.now()).minusMonths(1);
+
             try {
                 ResultSet lbm = dbcon.queryToDB("select lastEmpPayment as dt from DateTrack where sl = (select max(sl) from DateTrack)");
                 lbm.next();
@@ -249,73 +250,81 @@ public class EmployeeController implements Initializable {
             } catch (Exception e) {
                 lastBillYM = YearMonth.from(LocalDate.now()).minusMonths(2);
             }
-
+            if (!lastBillYM.isBefore(currentYM)) {
+                throw new Exception();
+            }
             //=====
-            YearMonth currentYM = YearMonth.from(LocalDate.now()).minusMonths(1);
 
-            while (lastBillYM.isBefore(currentYM)) {
-                //next month of last bill
-                dbcon.insertDataToDB("insert into DateTrack values('" + LocalDate.now() + "' )");
-                lastBillYM = lastBillYM.plusMonths(1);
+            double demand = calcTotalServiceCost();
+            if (fundAvailable(demand)) {
 
-                //now bill
-                //get flat count***********************************
+                while (lastBillYM.isBefore(currentYM)) {
+                    //next month of last bill
+                    dbcon.insertDataToDB("insert into DateTrack values('" + LocalDate.now() + "' )");
+                    lastBillYM = lastBillYM.plusMonths(1);
+
+                    //now bill
+                    //get flat count***********************************
 //            ResultSet flatct = dbcon.queryToDB("select count(*) as ct from Flats");
 //            flatct.next();
-                //calc charge
+                    //calc charge
 //            double totalService = calcTotalServiceCost();
 //            totalService /= flatct.getInt("ct");
 //            double totalOther = calcOther(lastBillYM.getYear() + "", lastBillYM.getMonth().getDisplayName(TextStyle.SHORT, Locale.US));
 //            totalOther /= flatct.getInt("ct");
-                //******************************************************************************
-                ResultSet billrs = dbcon.queryToDB("select name as NAME, phone as PHONE, designation as DESIGNATION, salary as SALARY, status_, empID from Employees where status_ = 'present'");
+                    //******************************************************************************
+                    ResultSet billrs = dbcon.queryToDB("select name as NAME, phone as PHONE, designation as DESIGNATION, salary as SALARY, status_, empID from Employees where status_ = 'present'");
 
-                while (billrs.next()) {
-                    //for each owner
+                    while (billrs.next()) {
+                        //for each owner
 
-                    //SET QRY 
-                    name = billrs.getString("name");
-                    phone = billrs.getString("phone");
-                    desig = billrs.getString("designation");
+                        //SET QRY 
+                        name = billrs.getString("name");
+                        phone = billrs.getString("phone");
+                        desig = billrs.getString("designation");
 
-                    deadline = "" + LocalDate.now().plusDays(7);
-                    double salary = billrs.getDouble("salary");
+                        deadline = "" + LocalDate.now().plusDays(7);
+                        double salary = billrs.getDouble("salary");
 
-                    //NOW PAY
-                    //insert into Billings values(GETDATE(), '2022-9-9', 65, 'status_', '01756060071', 'shabbir')
-                    //String qry = "insert into Transactions values(getdate(), 'pay', " + salary + ", 'pending', '" + ownerphone + "', '" + ownername + "')";
-                    //***************************************************
-                    //NOW INSERT AND CHECK SUCCESS ******************************************
-                    if (pay(salary)) {
-                        showAlert(true, "Success payment to " + name + ", salary : " + salary);
-                        //then create doc
+                        //NOW PAY
+                        //insert into Billings values(GETDATE(), '2022-9-9', 65, 'status_', '01756060071', 'shabbir')
+                        //String qry = "insert into Transactions values(getdate(), 'pay', " + salary + ", 'pending', '" + ownerphone + "', '" + ownername + "')";
+                        //***************************************************
+                        //NOW INSERT AND CHECK SUCCESS ******************************************
+                        if (pay(salary)) {
+                            showAlert(true, "Success payment to " + name + ", salary : " + salary);
+                            //then create doc
 
-                        //=====================create text file
-                        ResultSet rss = dbcon.queryToDB("select trxID from Transactions where sl = (select max(sl) from Transactions)");
-                        rss.next();
+                            //=====================create text file
+                            ResultSet rss = dbcon.queryToDB("select trxID from Transactions where sl = (select max(sl) from Transactions)");
+                            rss.next();
 
-                        String invname = rss.getString("trxID");
-                        String inf = "Paying Month [ " + lastBillYM + " ]\n\n";
-                        inf += String.format(" %20s  : %15s", "Employee Name", name);
-                        inf += "\n";
-                        inf += String.format(" %20s  : %15s", "Employee Phone", phone);
-                        inf += "\n";
-                        inf += String.format(" %20s  : %15s", "Salary", "" + salary);
-                        boolean invoiceCreated = DocumentCreator.createPaySlip(inf, invname + ".txt");
+                            String invname = rss.getString("trxID");
+                            String inf = "Paying Month [ " + lastBillYM + " ]\n\n";
+                            inf += String.format(" %20s  : %15s", "Employee Name", name);
+                            inf += "\n";
+                            inf += String.format(" %20s  : %15s", "Employee Phone", phone);
+                            inf += "\n";
+                            inf += String.format(" %20s  : %15s", "Salary", "" + salary);
+                            boolean invoiceCreated = DocumentCreator.createPaySlip(inf, invname + ".txt");
 
-                    } else {
-                        showAlert(false, "payment to " + name + " failed");
+                        } else {
+                            showAlert(false, "payment to " + name + " failed");
+                        }
+
                     }
+                    //**************************************************************************
 
                 }
-                //**************************************************************************
+                showAlert(true, "all payments are up to date");
 
+                //*************************************************
+            } else {
+                showAlert(false, "fund Not available");
             }
-            showAlert(true, "all payments are up to date");
 
-            //*************************************************
-        } else {
-            showAlert(false, "fund Not available");
+        } catch (Exception e) {
+            showAlert(false, "payment up to date");
         }
     }
 

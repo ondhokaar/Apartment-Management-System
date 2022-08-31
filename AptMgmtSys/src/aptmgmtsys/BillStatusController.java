@@ -52,11 +52,8 @@ public class BillStatusController implements Initializable {
             // TODO
             dbcon.connectToDB();
             TableLoader.loadTable("select * from Billings", tv_bills);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BillStatusController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(BillStatusController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (Exception ex) {
+        } 
     }
 
     @FXML
@@ -136,7 +133,7 @@ public class BillStatusController implements Initializable {
             rs.next();
             return rs.getDouble("latestAvailableAmount");
 
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             showAlert(false, "sth went wrong during checking fund availibility");
         }
         return -1;
@@ -154,7 +151,6 @@ public class BillStatusController implements Initializable {
         }
 
         alert.setHeaderText(msg);
-        alert.setContentText("---");
         alert.showAndWait();
     }
 }

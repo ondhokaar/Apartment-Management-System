@@ -154,7 +154,9 @@ public class PaymentController implements Initializable {
 
     @FXML
     private void onClickBtn_pay(ActionEvent event) {
-        if (fundAvailable()) {
+        
+        try {
+            if (fundAvailable()) {
             pay();
             showAlert(true, "Success payment");
             gp.getChildren().clear();
@@ -165,6 +167,9 @@ public class PaymentController implements Initializable {
 
         } else {
             showAlert(false, "Not Enough Fund");
+        }}
+        catch(Exception e){
+            showAlert(false, "sth went wrong");
         }
     }
 
@@ -183,7 +188,8 @@ public class PaymentController implements Initializable {
         //====================EMPLOYEE
         //1. choose employee first
         gp.getChildren().clear();
-
+        sumtotal = 0;
+        label_sumtotal.setText("" + sumtotal);
         Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource("ChooseEmployee.fxml"));
@@ -241,6 +247,8 @@ public class PaymentController implements Initializable {
     private void onClickMitem_oldService(ActionEvent event) {
         //==============================OLD SERVICE
         gp.getChildren().clear();
+        sumtotal = 0;
+        label_sumtotal.setText("" + sumtotal);
 
         Parent root;
         try {
