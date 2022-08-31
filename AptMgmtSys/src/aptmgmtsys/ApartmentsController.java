@@ -241,9 +241,9 @@ public class ApartmentsController implements Initializable {
 
     @FXML
     private void OMC_tv_apt(MouseEvent event) {
-        btn_sell.setDisable(tv_apartments.getSelectionModel().getSelectedItems().get(0) == null);
-        btn_remove.setDisable(tv_apartments.getSelectionModel().getSelectedItems().get(0) == null);
-        btn_viewDetails.setDisable(tv_apartments.getSelectionModel().getSelectedItems().get(0) == null);
+        btn_sell.setDisable(tv_apartments.getSelectionModel().getSelectedItems().get(0).equals(null));
+        btn_remove.setDisable(tv_apartments.getSelectionModel().getSelectedItems().get(0).equals(null));
+        btn_viewDetails.setDisable(tv_apartments.getSelectionModel().getSelectedItems().get(0).equals( null));
 
 
     }

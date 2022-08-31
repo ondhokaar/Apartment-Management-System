@@ -83,13 +83,13 @@ public class AddNewFlatController implements Initializable {
         final Pattern numPattern = Pattern.compile("^[0-9]+[.]?[0-9]+$");
        final Pattern aptPattern = Pattern.compile("^[a-zA-Z0-9]+$");
         final Pattern levelPattern = Pattern.compile("^[0-9]+$");
-        final Pattern specPattern = Pattern.compile("^[A-Za-z0-9.,-]+$");
+        //final Pattern specPattern = Pattern.compile("^[A-Za-z0-9.,-]+[\\s]?[A-Za-z0-9.,-]*$");
         
         
         
         tf_specification.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { //when focus lost
-                if (!tf_specification.getText().matches(aptPattern.toString())) {
+                if (tf_specification.getText().isEmpty()) {
                     //when it not matches the pattern (1.0 - 6.0)
                     //set the textField empty
                     label_warning.setText("Please add specification");
@@ -249,7 +249,7 @@ public class AddNewFlatController implements Initializable {
 
         try {
             
-            
+        
 
             if (!tf_aptNo.getText().isEmpty() && !tf_area.getText().isEmpty() && a && b && !tf_level.getText().isEmpty() && !tf_specification.getText().isEmpty()) {
 

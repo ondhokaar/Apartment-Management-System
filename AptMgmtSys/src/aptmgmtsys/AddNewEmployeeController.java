@@ -65,7 +65,7 @@ public class AddNewEmployeeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //************************************
-        final Pattern mailPattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+        final Pattern mailPattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9-]+$");
         final Pattern phonePattern = Pattern.compile("^[0-9]{11}$");
         final Pattern namePattern = Pattern.compile("^[A-Za-z\\s]+$");
         final Pattern numPattern = Pattern.compile("^[0-9]+[.]?[0-9]+$");
@@ -122,7 +122,7 @@ public class AddNewEmployeeController implements Initializable {
             }
 
         });
-                tf_designation.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+        tf_designation.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { //when focus lost
                 if (!tf_designation.getText().matches(namePattern.toString())) {
                     //when it not matches the pattern (1.0 - 6.0)
@@ -196,7 +196,9 @@ public class AddNewEmployeeController implements Initializable {
                         + ", 'present', null, '"
                         + label_docs.getText()
                         + "')";
-                boolean st = dbcon.insertDataToDB(insertQry);
+                boolean st = false;
+
+                st = dbcon.insertDataToDB(insertQry);
 
                 if (st) {
                     //success
