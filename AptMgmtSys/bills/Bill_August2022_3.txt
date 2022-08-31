@@ -1,0 +1,13 @@
+Billing for [ 2022-07 ]
+
+        Customer Name  :  Suraiya Khair 
+       Customer Phone  :     01756060071
+       Total Flat Qty  :               2
+
+************************************************************
+        Monthly Facility charge  :    45000.0
+             Other added charge  :        0.0
+--------------------------------------------------------------------------
+           Total Amount Payable  :    45000.0
+Pay on or before : 2022-09-06
+created on : Tue Aug 30 08:08:23 BDT 2022

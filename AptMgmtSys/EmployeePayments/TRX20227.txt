@@ -1,0 +1,7 @@
+Paying Month [ 2022-07 ]
+
+        Employee Name  :       Emp three
+       Employee Phone  :     01876543212
+               Salary  :         30000.0
+
+Paid on : Tue Aug 30 08:09:48 BDT 2022

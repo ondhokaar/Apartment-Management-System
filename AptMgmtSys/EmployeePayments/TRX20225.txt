@@ -1,0 +1,7 @@
+Paying Month [ 2022-07 ]
+
+        Employee Name  :        Emp four
+       Employee Phone  :     01254732569
+               Salary  :         20000.0
+
+Paid on : Tue Aug 30 08:09:44 BDT 2022

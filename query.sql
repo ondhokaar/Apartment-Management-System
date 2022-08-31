@@ -188,6 +188,12 @@ create  table Billings(
 	constraint fk_billings foreign key(phone, name) references Owners(phone, name)
 	
 );
+use ISD
+truncate table Employees
+update truncate table Billings
+set status_='pending'
+where sl = 2
+truncate table Transactions
 select max(entryDate) from Billings where name = 'shabbir' and phone = '01756060071s' a
 select entryDate from Billings where sl = MAX(sl)
 insert into Billings values('2022-05-10', '2022-9-9', 65, 'status_', '01756060071', 'shabbir')

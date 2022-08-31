@@ -83,7 +83,7 @@ public class AddNewFlatController implements Initializable {
         final Pattern numPattern = Pattern.compile("^[0-9]+[.]?[0-9]+$");
        final Pattern aptPattern = Pattern.compile("^[a-zA-Z0-9]+$");
         final Pattern levelPattern = Pattern.compile("^[0-9]+$");
-        final Pattern specPattern = Pattern.compile("^[A-Za-z0-9.,-]{20,}+$");
+        final Pattern specPattern = Pattern.compile("^[A-Za-z0-9.,-]+$");
         
         
         
@@ -92,7 +92,7 @@ public class AddNewFlatController implements Initializable {
                 if (!tf_specification.getText().matches(aptPattern.toString())) {
                     //when it not matches the pattern (1.0 - 6.0)
                     //set the textField empty
-                    label_warning.setText("minimum 20 chars containing a-zA-Z0-9,.-");
+                    label_warning.setText("Please add specification");
                     tf_specification.setText("");
                     tf_specification.setStyle("-fx-border-color:red;");
                 } else {

@@ -1,0 +1,7 @@
+Paying Month [ 2022-07 ]
+
+        Employee Name  :         emp two
+       Employee Phone  :     01236547896
+               Salary  :         15000.0
+
+Paid on : Tue Aug 30 08:09:43 BDT 2022

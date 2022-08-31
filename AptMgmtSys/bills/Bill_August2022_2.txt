@@ -1,0 +1,13 @@
+Billing for [ 2022-07 ]
+
+        Customer Name  :            Shah
+       Customer Phone  :     01756325478
+       Total Flat Qty  :               1
+
+************************************************************
+        Monthly Facility charge  :    22500.0
+             Other added charge  :        0.0
+--------------------------------------------------------------------------
+           Total Amount Payable  :    22500.0
+Pay on or before : 2022-09-06
+created on : Tue Aug 30 08:08:20 BDT 2022

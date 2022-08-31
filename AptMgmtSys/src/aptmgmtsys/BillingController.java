@@ -187,7 +187,7 @@ public class BillingController implements Initializable {
                     inf += String.format(" %20s  : %15s", "Customer Phone", ownerphone);
                     inf += "\n";
                     inf += String.format(" %20s  : %15s", "Total Flat Qty", "" + flatqty);
-                    boolean invoiceCreated = DocumentCreator.createInvoice(inf, deadline, flatqty, totalService, totalOther, invname + ".txt");
+                    boolean invoiceCreated = DocumentCreator.createInvoice(inf, deadline, flatqty, totalService*flatqty, totalOther*flatqty, invname + ".txt");
                 } else {
                     showAlert(false, "bill to " + ownername + " failed");
                 }
